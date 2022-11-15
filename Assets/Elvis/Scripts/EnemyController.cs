@@ -16,7 +16,9 @@ public class EnemyController : MonoBehaviour
     private bool _canShot = true;
 
     [SerializeField]
-    private float _raycastDistance;
+    private float raycastDistance;
+    [SerializeField]
+    private LayerMask layerMask;
     
     private PlayerController _player;
     
@@ -32,14 +34,11 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (Physics.Raycast(transform.position, 
-                -transform.up, out var hit, _raycastDistance))
+        if (!Physics.Raycast(transform.position, 
+                -transform.up, out var hit, raycastDistance, layerMask))
         {
-            if (!hit.collider.CompareTag("Enemy"))
-            {
-                if (Math.Abs(_player.GetPlayerXPos() - transform.position.x) < .75f)
-                    Shot();
-            }
+            if (Math.Abs(_player.GetPlayerXPos() - transform.position.x) < .75f)
+                Shot();
         }
     }
     
@@ -65,6 +64,6 @@ public class EnemyController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, -transform.up * _raycastDistance);
+        Gizmos.DrawRay(transform.position, -transform.up * raycastDistance);
     }
 }

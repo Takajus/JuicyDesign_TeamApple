@@ -131,10 +131,10 @@ MonoBehaviour:
   weapon: {fileID: 6048432335875897864}
   bullet: {fileID: 5895904791235356977, guid: 4177db039e416474d9ba024ee09168fb, type: 3}
   fireRate: 1
-  layer:
+  raycastDistance: 2
+  layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _raycastDistance: 2.5
 --- !u!1 &6048432335875897864
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-
     [SerializeField]
     private GameObject enemyPrefab;
 
@@ -15,6 +14,8 @@ public class EnemyManager : MonoBehaviour
     private int column;
 
     private Transform _transform;
+    
+    [SerializeField]
     private float distance = 1.5f;
     
     // Start is called before the first frame update
