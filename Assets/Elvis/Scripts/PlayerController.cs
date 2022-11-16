@@ -31,8 +31,10 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
+        Vector3 pos = transform.position;
         
-        transform.Translate(direction * (speed * Time.deltaTime));
+        transform.position = pos + direction * (speed * Time.deltaTime);
+        // transform.Translate(direction * (speed * Time.deltaTime));
     }
     
     private void Shot()
