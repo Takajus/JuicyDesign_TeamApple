@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,11 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> weapons;
     
     private bool _canShot = true;
+
+    private void Start()
+    {
+        FindObjectOfType<SoundManager>().PlaySound("PlayerShot");
+    }
 
     // Update is called once per frame
     private void Update()
