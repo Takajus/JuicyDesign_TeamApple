@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Stats")]
+    [SerializeField] 
+    private int health;
+
     [SerializeField]
     private float speed;
     [SerializeField]
     private float fireRate;
+    
+    [Header("Weapon")]
     [SerializeField]
     private GameObject weaponPosition;
     [SerializeField]
@@ -20,26 +26,30 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> weapons;
     
     private bool _canShot = true;
+    private SoundManager _soundManager;
 
     private void Start()
     {
-        FindObjectOfType<SoundManager>().PlaySound("PlayerShot");
+        _soundManager = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Movement();
         Shot();
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
     }
 
     private void Movement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
-        Vector3 pos = transform.position;
         
-        transform.position = pos + direction * (speed * Time.deltaTime);
+        transform.position += direction * (speed * Time.deltaTime);
         // transform.Translate(direction * (speed * Time.deltaTime));
     }
     
@@ -70,6 +80,26 @@ public class PlayerController : MonoBehaviour
     public int GetPlayerXPos()
     {
         return (int) transform.position.x;
+    }
+
+    public int GetHealth()
+    {
+        return health;
+    }
+
+    public void GetDamage(int damage)
+    {
+        health -= damage;
+        
+        if (health <= 0)
+            KillPlayer();
+        else
+            _soundManager.PlaySound("PlayerHit");
+    }
+
+    private void KillPlayer()
+    {
+        _soundManager.PlaySound("PlayerDeath");
     }
     
     private IEnumerator ShotTimer()

@@ -13,7 +13,7 @@ public class BulletController : MonoBehaviour
     private int _direction = 1;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Destroy(gameObject, lifeTime);
     }
