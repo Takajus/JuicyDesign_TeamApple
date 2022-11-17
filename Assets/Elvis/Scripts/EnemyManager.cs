@@ -35,16 +35,15 @@ public class EnemyManager : MonoBehaviour
     private void SpawnEnemies()
     {
         Vector3 center = _transform.position - 
-                         new Vector3(
-                             line * 0.5f * distance, 
-                             column * 0.5f * distance, 0);
+                         new Vector3(line * 0.5f * distance,
+                         column * 0.5f * distance, 0f);
 
         for (int i = 0; i < line; ++i)
         {
             for (int j = 0; j < column; ++j)
             {
                 Instantiate(enemyPrefab, 
-                    new Vector3(center.x + i * distance, center.y + j * distance, 0), 
+                    new Vector3(center.x + i * distance, center.y + j * distance, 0f), 
                     Quaternion.identity);
             }
         }
