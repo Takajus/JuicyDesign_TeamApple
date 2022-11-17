@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         if (!_canShot) return;
 
         if (bullet)
-            Instantiate(bullet, weaponPosition.transform.position, Quaternion.identity);
+            Instantiate(bullet, weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
         _canShot = false;
 

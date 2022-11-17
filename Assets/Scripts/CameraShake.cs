@@ -15,7 +15,7 @@ public class CameraShake : MonoBehaviour
             StartCoroutine(CameraShakeTrap(shakeTrapDuration, shakeTrapMagnitude));
         }
     }
-
+        
     public IEnumerator CameraShakeTrap(float duration, float magnitude)
     {
         Debug.Log("CameraShake");
