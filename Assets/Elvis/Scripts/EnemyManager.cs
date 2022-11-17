@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,9 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private float distance = 1.5f;
+
+    [SerializeField] 
+    private float distanceToPlayer = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -36,16 +40,16 @@ public class EnemyManager : MonoBehaviour
     {
         Vector3 center = _transform.position - 
                          new Vector3(
-                             line * 0.5f * distance, 
-                             column * 0.5f * distance, 0);
+                             line * 0.5f * distance, distanceToPlayer, 
+                             column * 0.5f * distance);
 
         for (int i = 0; i < line; ++i)
         {
             for (int j = 0; j < column; ++j)
             {
                 Instantiate(enemyPrefab, 
-                    new Vector3(center.x + i * distance, center.y + j * distance, 0), 
-                    Quaternion.identity);
+                    new Vector3(center.x + i * distance, 1, center.y + j * distance), 
+                    Quaternion.Euler(90, 0, 0));
             }
         }
     }
