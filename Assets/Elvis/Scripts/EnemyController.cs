@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
         {
             _canShot = false;
             StartCoroutine(ShotDelay());
-            GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.identity);
+            GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.Euler(90, 0, 0));
             
             bulletInstance.GetComponent<BulletController>().SetDirection(-1);
         }

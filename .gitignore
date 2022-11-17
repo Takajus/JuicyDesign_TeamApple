@@ -68,3 +68,5 @@ UserSettings/Layouts/default-2021.dwlt
 *.json
 
 Packages/
+
+Assets/Elvis/Scenes/GameScene.unity

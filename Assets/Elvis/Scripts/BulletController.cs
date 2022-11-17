@@ -21,7 +21,7 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        transform.position += Vector3.up * (_direction * (speed * Time.deltaTime));
+        transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
     }
     
     public void SetDirection(int direction)
