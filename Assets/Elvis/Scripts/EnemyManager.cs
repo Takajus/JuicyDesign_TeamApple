@@ -26,8 +26,10 @@ public class EnemyManager : MonoBehaviour
     private float delay = 1.5f;
 
     private bool _canMove = true;
-
     
+    [SerializeField]
+    private Material[] materials;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -63,7 +65,14 @@ public class EnemyManager : MonoBehaviour
                     new Vector3(center.x + i * distance, 1, center.y + j * distance), 
                     Quaternion.Euler(90, 0, 0));
                 
-                enemy.transform.SetParent(gameObject.transform);
+                if (i == 0)
+                    enemy.GetComponent<Renderer>().material = materials[0];
+                else if (i == line - 1)
+                    enemy.GetComponent<Renderer>().material = materials[1];
+                else
+                    enemy.GetComponent<Renderer>().material = materials[2];
+
+                    enemy.transform.SetParent(gameObject.transform);
             }
         }
     }

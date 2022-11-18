@@ -464,6 +464,22 @@ PrefabInstance:
       propertyPath: distanceToPlayer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4fccaca91c6882646b431a08cabc1647, type: 2}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f26368a31240e7a428d844aae54eebd1, type: 2}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9486b81a31f1b2b48b13e13b292223c5, type: 2}
     - target: {fileID: 7376455660417982004, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
       propertyPath: sounds.Array.data[0].name
       value: Theme
