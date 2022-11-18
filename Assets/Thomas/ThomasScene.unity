@@ -901,6 +901,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDestroyEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 6198115573862609182, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6198115574473438594, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6198115574711192632, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
 --- !u!1001 &9041400628680631792
@@ -913,6 +925,10 @@ PrefabInstance:
     - target: {fileID: 9041400627741904411, guid: 142599f1fed401b44aee59879f96102e, type: 3}
       propertyPath: m_Name
       value: FloatingText
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041400627741904411, guid: 142599f1fed401b44aee59879f96102e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9041400627741904414, guid: 142599f1fed401b44aee59879f96102e, type: 3}
       propertyPath: m_RootOrder

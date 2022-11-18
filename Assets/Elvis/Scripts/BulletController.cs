@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class BulletController : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class BulletController : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
+                JuicyManager.Instance.DestructionSystem(other.gameObject);
+                JuicyManager.Instance.PopUpScoreSystem(other.gameObject, "13");
+                
                 Destroy(other.gameObject);
                 Destroy(gameObject);
             }
