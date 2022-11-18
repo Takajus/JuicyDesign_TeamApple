@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         StopAllCoroutines();
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void SetEndGame()
