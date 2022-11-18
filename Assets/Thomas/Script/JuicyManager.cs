@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class JuicyManager : MonoBehaviour
 {
+    // private static JuicyManager Instance;
     private static JuicyManager instance;
-    private JuicyManager(){}
 
-    public static JuicyManager Instance { get; private set; }
+    public static JuicyManager Instance { get { return instance; } }
 
     public GameObject
         popUpScorePrefab,
@@ -95,7 +95,7 @@ public class JuicyManager : MonoBehaviour
     {
         if (obj)
         {
-            tempPrefab = Instantiate(popUpScorePrefab, obj.transform.position, obj.transform.rotation);
+            tempPrefab = Instantiate(destructionPrefeb, obj.transform.position, obj.transform.rotation);
         }
         else
         {
