@@ -13,9 +13,13 @@ public class BulletController : MonoBehaviour
     
     private int _direction = 1;
     
-    // Start is called before the first frame update
+    private SoundManager _soundManager;
+
     private void Start()
     {
+        _soundManager = FindObjectOfType<SoundManager>();
+        // _soundManager.PlaySound("PlayerShot");
+
         Destroy(gameObject, lifeTime);
     }
 
@@ -38,6 +42,8 @@ public class BulletController : MonoBehaviour
             {
                 JuicyManager.Instance.DestructionSystem(other.gameObject);
                 JuicyManager.Instance.PopUpScoreSystem(other.gameObject, "13");
+                
+                _soundManager.PlaySound("Destruction alien");
                 
                 Destroy(other.gameObject);
                 Destroy(gameObject);

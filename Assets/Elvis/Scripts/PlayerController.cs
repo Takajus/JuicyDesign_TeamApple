@@ -7,27 +7,30 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] 
-    private int health;
+    private int _health;
 
     [SerializeField]
-    private float speed;
+    private float _speed;
     [SerializeField]
-    private float fireRate;
+    private float _fireRate;
     
     [Header("Weapon")]
     [SerializeField]
-    private GameObject weaponPosition;
+    private GameObject _weaponPosition;
     [SerializeField]
-    private GameObject bullet;
+    private GameObject _bullet;
     
     private GameObject _weapon;
     
     [SerializeField]
-    private List<GameObject> weapons;
+    private List<GameObject> _weapons;
     
     private bool _canShot = true;
     private SoundManager _soundManager;
-
+    
+    // [SerializeField]
+    // private AudioSource _audioSource;
+    
     private void Start()
     {
         _soundManager = FindObjectOfType<SoundManager>();
@@ -49,7 +52,7 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
-        transform.position += direction * (speed * Time.deltaTime);
+        transform.position += direction * (_speed * Time.deltaTime);
         // transform.Translate(direction * (speed * Time.deltaTime));
     }
     
@@ -58,9 +61,11 @@ public class PlayerController : MonoBehaviour
         if (!Input.GetButtonDown("Fire1")) return;
         if (!_canShot) return;
 
-        if (bullet)
-            Instantiate(bullet, weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
+        if (_bullet)
+            Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
+        // _audioSource.Play();
+        _soundManager.PlaySound("PlayerShot");
         _canShot = false;
 
         StartCoroutine(ShotTimer());
@@ -70,10 +75,10 @@ public class PlayerController : MonoBehaviour
     {
         _weapon.gameObject.SetActive(false);
         
-        int currIdx = weapons.IndexOf(_weapon);
-        int nextIdx = (currIdx + 1) % weapons.Count;
+        int currIdx = _weapons.IndexOf(_weapon);
+        int nextIdx = (currIdx + 1) % _weapons.Count;
         
-        _weapon = weapons[nextIdx];
+        _weapon = _weapons[nextIdx];
         _weapon.gameObject.SetActive(true);
     }
     
@@ -89,14 +94,14 @@ public class PlayerController : MonoBehaviour
 
     public int GetHealth()
     {
-        return health;
+        return _health;
     }
 
     public void GetDamage(int damage)
     {
-        health -= damage;
+        _health -= damage;
         
-        if (health <= 0)
+        if (_health <= 0)
         {
             KillPlayer();
         }
@@ -112,7 +117,7 @@ public class PlayerController : MonoBehaviour
     
     private IEnumerator ShotTimer()
     {
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(_fireRate);
         _canShot = true;
     }
 }
