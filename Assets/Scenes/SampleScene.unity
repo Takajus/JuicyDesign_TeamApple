@@ -253,6 +253,10 @@ PrefabInstance:
       propertyPath: speed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3793137408045153118, guid: 076776b6c14a6334da7154721a66cd45, type: 3}
+      propertyPath: health
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3793137408045153119, guid: 076776b6c14a6334da7154721a66cd45, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -459,6 +463,10 @@ PrefabInstance:
     - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
       propertyPath: column
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: fireRate
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
       propertyPath: distanceToPlayer

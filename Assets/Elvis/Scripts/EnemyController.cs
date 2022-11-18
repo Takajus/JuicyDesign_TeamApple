@@ -10,10 +10,10 @@ public class EnemyController : MonoBehaviour
     private GameObject weapon;
     [SerializeField]
     private GameObject bullet;
-    [SerializeField]
-    private float fireRate;
+    // [SerializeField]
+    // private float fireRate;
     
-    private bool _canShot = true;
+    // private bool _canShot = true;
 
     [SerializeField]
     private float raycastDistance;
@@ -45,20 +45,13 @@ public class EnemyController : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
-        if (_canShot)
+        if (transform.parent.GetComponent<EnemyManager>().GetCanShot())
         {
-            _canShot = false;
-            StartCoroutine(ShotDelay());
+            transform.parent.GetComponent<EnemyManager>().SetCanShotTrue(false);
             GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.Euler(90, 0, 0));
             
             bulletInstance.GetComponent<BulletController>().SetDirection(-1);
         }
-    }
-    
-    private IEnumerator ShotDelay()
-    {
-        yield return new WaitForSeconds(fireRate);
-        _canShot = true;
     }
 
     private void OnDrawGizmosSelected()

@@ -28,6 +28,11 @@ public class EnemyManager : MonoBehaviour
     private bool _canMove = true;
     
     [SerializeField]
+    private float fireRate;
+    
+    private bool _canShot = true;
+    
+    [SerializeField]
     private Material[] materials;
 
     // Start is called before the first frame update
@@ -72,7 +77,7 @@ public class EnemyManager : MonoBehaviour
                 else
                     enemy.GetComponent<Renderer>().material = materials[2];
 
-                    enemy.transform.SetParent(gameObject.transform);
+                enemy.transform.SetParent(gameObject.transform);
             }
         }
     }
@@ -93,5 +98,22 @@ public class EnemyManager : MonoBehaviour
         MoveEnemyToPlayer();
         yield return new WaitForSeconds(delay);
         _canMove = true;
+    }
+    
+    public bool GetCanShot()
+    {
+        return _canShot;
+    }
+
+    public void SetCanShotTrue(bool value)
+    {
+        _canShot = value;
+        StartCoroutine(ShotDelay());
+    }
+
+    private IEnumerator ShotDelay()
+    {
+        yield return new WaitForSeconds(fireRate);
+        _canShot = true;
     }
 }
