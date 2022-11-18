@@ -94,6 +94,11 @@ MonoBehaviour:
   line: 6
   column: 3
   distance: 1.5
+  distanceToPlayer: 1
+  distanceToMove: 1
+  delay: 1.5
+  fireRate: 1.25
+  materials: []
 --- !u!1 &7376455660417982154
 GameObject:
   m_ObjectHideFlags: 0
