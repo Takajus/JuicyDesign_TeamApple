@@ -81,6 +81,11 @@ public class PlayerController : MonoBehaviour
     {
         return (int) transform.position.x;
     }
+    
+    public int GetPlayerYPos()
+    {
+        return (int) transform.position.y;
+    }
 
     public int GetHealth()
     {
