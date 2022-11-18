@@ -4,43 +4,54 @@ using UnityEngine;
 
 public class PlayerRecoil : MonoBehaviour
 {
-    [Range(0f, 5f)] public float moveBackDistance;
-    [Range(0f, 5f)] public float recoilTime;
+    [Range(0f, 1f)] public float moveBackDistance = 1f;
+    [Range(0f, 2f)] public float recoilTime;
     public GameObject Player;
 
-    private Vector3 targetedPosition;
+    private Vector3 _targetedPosition;
+    private Vector3 _currentPosition;
+    private bool _methodSettings = false;
 
-    private void Start()
-    {
-        targetedPosition.z = Player.transform.position.z - moveBackDistance;
-    }
+    private float _timer = 0f;
+    private float _percent;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        _timer += Time.deltaTime;
+        _percent = _timer / recoilTime;
+        if (Input.GetKey(KeyCode.A))
         {
-            StartCoroutine(Recoil(targetedPosition.z, recoilTime));
+            if (!_methodSettings)
+            {
+                _methodSettings = true;
+                _targetedPosition.x = Player.transform.position.x;
+                _targetedPosition.y = Player.transform.position.y - moveBackDistance;
+                _targetedPosition.z = Player.transform.position.z;
+                _currentPosition = Player.transform.position;
+            }
+            Recoil(recoilTime);
         }
     }
     
-    public IEnumerator Recoil(float targetDistance, float time)
+    public void Recoil(float lerpTime)
     {
         Debug.Log("Recoil");
-        Vector3 originalPos = Player.transform.localPosition;
+        Vector3 currentPosition = _currentPosition;
+        Vector3 targetedPosition = _targetedPosition;
 
-        float elapsed = 0.0f;
-
-        while (elapsed < time)
+        if(_percent < recoilTime / 2)
         {
-            /* float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
-
-            Player.transform.localPosition = new Vector3(x, y, originalPos.z);
-
-            elapsed += Time.deltaTime;
-            */
-            yield return null;
+            Player.transform.position = Vector3.Lerp(currentPosition, targetedPosition, _percent);
+        }
+        else
+        {
+            Player.transform.position = Vector3.Lerp(targetedPosition, currentPosition, _percent);
         }
 
-        Player.transform.localPosition = originalPos;
+        if(_timer >= lerpTime)
+        {
+            _methodSettings = false;
+            _timer = 0;
+        }
     }
 }
