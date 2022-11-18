@@ -43,7 +43,7 @@ public class BulletController : MonoBehaviour
         {
             if (other.CompareTag("Player")) 
             {
-                Destroy(gameObject);
+                other.GetComponent<PlayerController>().GetDamage(1);
             }
         }
     }

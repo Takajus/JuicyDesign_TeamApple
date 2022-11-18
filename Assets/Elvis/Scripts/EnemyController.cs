@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
     private PlayerController _player;
     
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         if (!bullet)
             Resources.Load($"Bullet");
@@ -65,5 +65,11 @@ public class EnemyController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, -transform.up * raycastDistance);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+            GameManager.Instance.SetEndGame();
     }
 }

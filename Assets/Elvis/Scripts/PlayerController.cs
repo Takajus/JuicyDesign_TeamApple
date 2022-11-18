@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject bullet;
     
-    private GameObject weapon;
+    private GameObject _weapon;
     
     [SerializeField]
     private List<GameObject> weapons;
@@ -68,18 +68,23 @@ public class PlayerController : MonoBehaviour
     
     private void SwapWeapon()
     {
-        weapon.gameObject.SetActive(false);
+        _weapon.gameObject.SetActive(false);
         
-        int currIdx = weapons.IndexOf(weapon);
+        int currIdx = weapons.IndexOf(_weapon);
         int nextIdx = (currIdx + 1) % weapons.Count;
         
-        weapon = weapons[nextIdx];
-        weapon.gameObject.SetActive(true);
+        _weapon = weapons[nextIdx];
+        _weapon.gameObject.SetActive(true);
     }
     
     public int GetPlayerXPos()
     {
         return (int) transform.position.x;
+    }
+    
+    public int GetPlayerYPos()
+    {
+        return (int) transform.position.y;
     }
 
     public int GetHealth()
@@ -92,7 +97,9 @@ public class PlayerController : MonoBehaviour
         health -= damage;
         
         if (health <= 0)
+        {
             KillPlayer();
+        }
         else
             _soundManager.PlaySound("PlayerHit");
     }
@@ -100,6 +107,7 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         _soundManager.PlaySound("PlayerDeath");
+        GameManager.Instance.SetEndGame();
     }
     
     private IEnumerator ShotTimer()

@@ -13,32 +13,44 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private int column;
-
-    private Transform _transform;
+    private Transform _tr;
     
     [SerializeField]
     private float distance = 1.5f;
 
     [SerializeField] 
     private float distanceToPlayer = 1;
+    [SerializeField]
+    private float distanceToMove = 1;
+    [SerializeField]
+    private float delay = 1.5f;
+
+    private bool _canMove = true;
+
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _transform = GetComponent<Transform>();
+        _tr = GetComponent<Transform>();
 
         SpawnEnemies();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (GameManager.Instance.GetIsEndGame()) return;
         
+        if (!IsEnemyAlive())
+            GameManager.Instance.SetEndGame();
+        
+        if (_canMove)
+            StartCoroutine(MoveEnemyToPlayerCoroutine());
     }
     
     private void SpawnEnemies()
     {
-        Vector3 center = _transform.position - 
+        Vector3 center = _tr.position - 
                          new Vector3(
                              line * 0.5f * distance, distanceToPlayer, 
                              column * 0.5f * distance);
@@ -47,10 +59,30 @@ public class EnemyManager : MonoBehaviour
         {
             for (int j = 0; j < column; ++j)
             {
-                Instantiate(enemyPrefab, 
+                GameObject enemy = Instantiate(enemyPrefab, 
                     new Vector3(center.x + i * distance, 1, center.y + j * distance), 
                     Quaternion.Euler(90, 0, 0));
+                
+                enemy.transform.SetParent(gameObject.transform);
             }
         }
+    }
+
+    private void MoveEnemyToPlayer()
+    {
+        _tr.position += Vector3.back * distanceToMove;
+        _canMove = false;
+    }
+    
+    private bool IsEnemyAlive()
+    {
+        return transform.childCount > 0;
+    }
+    
+    private IEnumerator MoveEnemyToPlayerCoroutine()
+    {
+        MoveEnemyToPlayer();
+        yield return new WaitForSeconds(delay);
+        _canMove = true;
     }
 }
