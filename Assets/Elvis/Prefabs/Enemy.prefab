@@ -129,8 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 6048432335875897864}
-  bullet: {fileID: 5895904791235356977, guid: 4177db039e416474d9ba024ee09168fb, type: 3}
-  fireRate: 1
+  bullet: {fileID: 7718702203645884901, guid: 6e24cfcbd0b6fbb4880ca576727d987c, type: 3}
   raycastDistance: 2
   layerMask:
     serializedVersion: 2
