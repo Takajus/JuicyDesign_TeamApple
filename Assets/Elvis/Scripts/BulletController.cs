@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 public class BulletController : MonoBehaviour
 {
@@ -10,21 +9,21 @@ public class BulletController : MonoBehaviour
     private float speed = 10f;
     [SerializeField]
     private float lifeTime = 2f;
-    
-    private int _direction = 1;
-    
-    private SoundManager _soundManager;
 
-    private void Start()
+    protected int _direction = 1;
+    
+    protected SoundManager SoundManager;
+
+    protected void Start()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
+        SoundManager = FindObjectOfType<SoundManager>();
         // _soundManager.PlaySound("PlayerShot");
 
         Destroy(gameObject, lifeTime);
     }
 
     // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
     }
@@ -33,6 +32,23 @@ public class BulletController : MonoBehaviour
     {
         _direction = direction;
     }
+
+    private void BulletHitPlayer(GameObject player)
+    {
+        player.GetComponent<PlayerController>().GetDamage(1);
+        Destroy(gameObject);
+    }
+    
+    private void BulletHitEnemy(GameObject enemy)
+    {
+        JuicyManager.Instance.DestructionSystem(enemy.gameObject);
+        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, "13");
+                
+        SoundManager.PlaySound("Destruction alien");
+                
+        Destroy(enemy.gameObject);
+        Destroy(gameObject);
+    }
     
     private void OnTriggerEnter(Collider other)
     {
@@ -40,12 +56,8 @@ public class BulletController : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                JuicyManager.Instance.DestructionSystem(other.gameObject);
-                JuicyManager.Instance.PopUpScoreSystem(other.gameObject, "13");
-                
-                _soundManager.PlaySound("Destruction alien");
-                
-                Destroy(other.gameObject);
+                EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
+                // BulletHitEnemy(other.gameObject);
                 Destroy(gameObject);
             }
         }
@@ -53,8 +65,7 @@ public class BulletController : MonoBehaviour
         {
             if (other.CompareTag("Player")) 
             {
-                other.GetComponent<PlayerController>().GetDamage(1);
-                Destroy(gameObject);
+                BulletHitPlayer(other.gameObject);
             }
         }
     }
