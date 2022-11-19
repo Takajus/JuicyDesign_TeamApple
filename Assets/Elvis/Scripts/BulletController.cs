@@ -12,11 +12,8 @@ public class BulletController : MonoBehaviour
 
     protected int _direction = 1;
     
-    protected SoundManager SoundManager;
-
     protected void Start()
     {
-        SoundManager = FindObjectOfType<SoundManager>();
         // _soundManager.PlaySound("PlayerShot");
 
         Destroy(gameObject, lifeTime);
@@ -44,7 +41,7 @@ public class BulletController : MonoBehaviour
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
         JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, "13");
                 
-        SoundManager.PlaySound("Destruction alien");
+        SoundManager.Instance.PlaySound("Destruction alien");
                 
         Destroy(enemy.gameObject);
         Destroy(gameObject);

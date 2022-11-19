@@ -132,6 +132,11 @@ public class EnemyManager : MonoBehaviour
         {
             if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
             {
+                JuicyManager.Instance.DestructionSystem(e);
+                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                
+                SoundManager.Instance.PlaySound("Destruction alien");
+                
                 Destroy(e);
             }
         }
@@ -144,6 +149,13 @@ public class EnemyManager : MonoBehaviour
         {
             if (Math.Abs(e.transform.position.x - enemy.transform.position.x) < 0.2f)
             {
+                JuicyManager.Instance.DestructionSystem(e);
+                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                
+                SoundManager.Instance.PlaySound("Destruction alien");
+                
+                // delay for destroy
+
                 Destroy(e);
             }
         }

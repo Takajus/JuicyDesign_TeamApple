@@ -26,14 +26,12 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> _weapons;
     
     private bool _canShot = true;
-    private SoundManager _soundManager;
     
     // [SerializeField]
     // private AudioSource _audioSource;
     
     private void Start()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -64,8 +62,7 @@ public class PlayerController : MonoBehaviour
         if (_bullet)
             Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
-        // _audioSource.Play();
-        _soundManager.PlaySound("PlayerShot");
+        SoundManager.Instance.PlaySound("PlayerShot");
         _canShot = false;
 
         StartCoroutine(ShotTimer());
@@ -106,12 +103,12 @@ public class PlayerController : MonoBehaviour
             KillPlayer();
         }
         else
-            _soundManager.PlaySound("PlayerHit");
+            SoundManager.Instance.PlaySound("PlayerHit");
     }
 
     private void KillPlayer()
     {
-        _soundManager.PlaySound("PlayerDeath");
+        SoundManager.Instance.PlaySound("PlayerDeath");
         GameManager.Instance.SetEndGame();
     }
     
