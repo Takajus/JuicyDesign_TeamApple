@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+using Random = System.Random;
 
 public class BulletController : MonoBehaviour
 {
+    private VisualEffect visualEffect;
     [SerializeField]
     private float speed = 10f;
     [SerializeField]
@@ -15,6 +18,10 @@ public class BulletController : MonoBehaviour
     protected void Start()
     {
         Destroy(gameObject, lifeTime);
+
+        visualEffect = GetComponent<VisualEffect>();
+
+        visualEffect.SetFloat("lifetime", lifeTime);
     }
 
     // Update is called once per frame
