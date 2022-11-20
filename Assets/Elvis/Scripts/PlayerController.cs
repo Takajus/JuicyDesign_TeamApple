@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController _instance;
+    public static PlayerController Instance
+    {
+        get { return _instance;  }
+    }
+    
     [Header("Stats")]
     [SerializeField] 
     private int _health;
@@ -19,25 +25,30 @@ public class PlayerController : MonoBehaviour
     private GameObject _weaponPosition;
     [SerializeField]
     private GameObject _bullet;
-    
+
     private GameObject _weapon;
     
     [SerializeField]
     private List<GameObject> _weapons;
-    
+
     private bool _canShot = true;
     
     // [SerializeField]
     // private AudioSource _audioSource;
-    
-    private void Start()
+
+    private void Awake()
     {
+        if (_instance == null)
+            _instance = this;
+        else
+            Destroy(gameObject);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Shot();
+        if (_canShot)
+            Shot();
     }
 
     private void FixedUpdate()
@@ -57,15 +68,19 @@ public class PlayerController : MonoBehaviour
     private void Shot()
     {
         if (!Input.GetButtonDown("Fire1")) return;
-        if (!_canShot) return;
-
+        
         if (_bullet)
             Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
         SoundManager.Instance.PlaySound("PlayerShot");
         _canShot = false;
 
-        StartCoroutine(ShotTimer());
+        // StartCoroutine(ShotTimer());
+    }
+
+    public void SetCanShot(bool value = true)
+    {
+        _canShot = true;
     }
     
     private void SwapWeapon()
