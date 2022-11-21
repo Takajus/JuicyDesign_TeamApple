@@ -65,6 +65,7 @@ public class BulletController : MonoBehaviour
             {
                 // EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
 
+                Destroy(other.gameObject);
                 DestroyBullet();
             }
         }
