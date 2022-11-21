@@ -252,7 +252,7 @@ MonoBehaviour:
   _speed: 2
   _fireRate: 0.5
   _weaponPosition: {fileID: 3793137409134522039}
-  _bullet: {fileID: 5895904791235356977, guid: 4177db039e416474d9ba024ee09168fb, type: 3}
+  _bullet: {fileID: 7718702203645884901, guid: f5a5adac9c2167d44b968cca50e7373a, type: 3}
   _weapons:
   - {fileID: 3793137409134522039}
 --- !u!1 &3793137409134522039
