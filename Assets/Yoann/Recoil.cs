@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Recoil : MonoBehaviour
 {
-    private float timer;
     private Transform transform;
+    public AnimationCurve curve;
 
     private bool isKey;
 
-    public float freq;
-    public float amp;
-    // Start is called before the first frame update
+    private float timer;
+    public float curveValue;
+    public float speed;
+    public float length;
+
     void Start()
     {
         transform = GetComponent<Transform>();
-        freq = 64;
-        amp = 0.5f;
         isKey = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Change the key to a bool of when the ship shoots. Just make sure the bool you are using returns false after the shot.
         if (Input.GetKeyDown(KeyCode.W))
         {
             isKey = true;
@@ -30,11 +30,14 @@ public class Recoil : MonoBehaviour
 
         if (isKey) 
         {
-            timer += Time.deltaTime;
-            transform.position = new Vector3(0, -amp * Mathf.Sin(timer * freq) + amp, 0);
+            timer += speed * Time.deltaTime;
+            curveValue = length * curve.Evaluate(timer);
+
+            // You just have to change it to the right dimension (x, y, z)
+            transform.position = new Vector3(0, 0 , -curveValue);
         }
 
-        if (timer >= (Mathf.PI / (freq / 2)))
+        if (timer >= 1)
         {
             timer = 0;
             isKey = false;
