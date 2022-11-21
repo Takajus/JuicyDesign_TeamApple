@@ -10,10 +10,6 @@ public class EnemyController : MonoBehaviour
     private GameObject weapon;
     [SerializeField]
     private GameObject bullet;
-    [SerializeField]
-    private float fireRate;
-    
-    private bool _canShot = true;
 
     [SerializeField]
     private float raycastDistance;
@@ -23,7 +19,7 @@ public class EnemyController : MonoBehaviour
     private PlayerController _player;
     
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         if (!bullet)
             Resources.Load($"Bullet");
@@ -45,25 +41,24 @@ public class EnemyController : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
-        if (_canShot)
+        if (EnemyManager.Instance.GetCanShot())
         {
-            _canShot = false;
-            StartCoroutine(ShotDelay());
-            GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.identity);
+            EnemyManager.Instance.SetCanShotTrue(false);
+            GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.Euler(90, 0, 0));
             
             bulletInstance.GetComponent<BulletController>().SetDirection(-1);
         }
-    }
-    
-    private IEnumerator ShotDelay()
-    {
-        yield return new WaitForSeconds(fireRate);
-        _canShot = true;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, -transform.up * raycastDistance);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+            GameManager.Instance.SetEndGame();
     }
 }

@@ -233,9 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb69647adf4659341b29cbe96e4b68d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveBackDistance: 0
-  travelSpeed: 0
-  Player: {fileID: 0}
+  moveBackDistance: 1
+  recoilTime: 1
+  Player: {fileID: 152675223}
 --- !u!1 &1737455334
 GameObject:
   m_ObjectHideFlags: 0

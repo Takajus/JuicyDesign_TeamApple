@@ -5,38 +5,50 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController _instance;
+    public static PlayerController Instance
+    {
+        get { return _instance;  }
+    }
+    
     [Header("Stats")]
     [SerializeField] 
-    private int health;
+    private int _health;
 
     [SerializeField]
-    private float speed;
+    private float _speed;
     [SerializeField]
-    private float fireRate;
+    private float _fireRate;
     
     [Header("Weapon")]
     [SerializeField]
-    private GameObject weaponPosition;
+    private GameObject _weaponPosition;
     [SerializeField]
-    private GameObject bullet;
-    
-    private GameObject weapon;
-    
-    [SerializeField]
-    private List<GameObject> weapons;
-    
-    private bool _canShot = true;
-    private SoundManager _soundManager;
+    private GameObject _bullet;
 
-    private void Start()
+    private GameObject _weapon;
+    
+    [SerializeField]
+    private List<GameObject> _weapons;
+
+    private bool _canShot = true;
+    
+    // [SerializeField]
+    // private AudioSource _audioSource;
+
+    private void Awake()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
+        if (_instance == null)
+            _instance = this;
+        else
+            Destroy(gameObject);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Shot();
+        if (_canShot)
+            Shot();
     }
 
     private void FixedUpdate()
@@ -49,62 +61,75 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
-        transform.position += direction * (speed * Time.deltaTime);
+        transform.position += direction * (_speed * Time.deltaTime);
         // transform.Translate(direction * (speed * Time.deltaTime));
     }
     
     private void Shot()
     {
         if (!Input.GetButtonDown("Fire1")) return;
-        if (!_canShot) return;
-
-        if (bullet)
-            Instantiate(bullet, weaponPosition.transform.position, Quaternion.identity);
         
+        if (_bullet)
+            Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
+        
+        SoundManager.Instance.PlaySound("PlayerShot");
         _canShot = false;
 
-        StartCoroutine(ShotTimer());
+        // StartCoroutine(ShotTimer());
+    }
+
+    public void SetCanShot(bool value = true)
+    {
+        _canShot = true;
     }
     
     private void SwapWeapon()
     {
-        weapon.gameObject.SetActive(false);
+        _weapon.gameObject.SetActive(false);
         
-        int currIdx = weapons.IndexOf(weapon);
-        int nextIdx = (currIdx + 1) % weapons.Count;
+        int currIdx = _weapons.IndexOf(_weapon);
+        int nextIdx = (currIdx + 1) % _weapons.Count;
         
-        weapon = weapons[nextIdx];
-        weapon.gameObject.SetActive(true);
+        _weapon = _weapons[nextIdx];
+        _weapon.gameObject.SetActive(true);
     }
     
     public int GetPlayerXPos()
     {
         return (int) transform.position.x;
     }
+    
+    public int GetPlayerYPos()
+    {
+        return (int) transform.position.y;
+    }
 
     public int GetHealth()
     {
-        return health;
+        return _health;
     }
 
     public void GetDamage(int damage)
     {
-        health -= damage;
+        _health -= damage;
         
-        if (health <= 0)
+        if (_health <= 0)
+        {
             KillPlayer();
+        }
         else
-            _soundManager.PlaySound("PlayerHit");
+            SoundManager.Instance.PlaySound("PlayerHit");
     }
 
     private void KillPlayer()
     {
-        _soundManager.PlaySound("PlayerDeath");
+        SoundManager.Instance.PlaySound("PlayerDeath");
+        GameManager.Instance.SetEndGame();
     }
     
     private IEnumerator ShotTimer()
     {
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(_fireRate);
         _canShot = true;
     }
 }
