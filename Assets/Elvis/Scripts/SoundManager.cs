@@ -7,11 +7,20 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager _instance;
+    public static SoundManager Instance { get { return _instance; } }
     
     public Sound[] sounds;
 
     private void Awake()
     {
+        if (_instance == null)
+            _instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -23,6 +32,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void PlaySound(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
