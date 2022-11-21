@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _soundManager.PlaySound("Theme");
+        // _soundManager.PlaySound("Theme");
     }
     
     private void EndGame()

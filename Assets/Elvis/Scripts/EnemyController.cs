@@ -50,6 +50,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void KillEnemy()
+    {
+        SoundManager.Instance.PlaySound("EnemyDeath");
+        Destroy(gameObject);
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
