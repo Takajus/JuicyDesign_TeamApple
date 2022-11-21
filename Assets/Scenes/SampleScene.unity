@@ -557,8 +557,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  freq: 0
-  amp: 0
+  curveValue: 0
+  speed: 0
+  length: 0
 --- !u!135 &595604997
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1018,7 +1019,7 @@ PrefabInstance:
     - target: {fileID: 3793137408045153118, guid: 076776b6c14a6334da7154721a66cd45, type: 3}
       propertyPath: _bullet
       value: 
-      objectReference: {fileID: 5895904791235356977, guid: 4177db039e416474d9ba024ee09168fb, type: 3}
+      objectReference: {fileID: 7718702203645884901, guid: f5a5adac9c2167d44b968cca50e7373a, type: 3}
     - target: {fileID: 3793137408045153118, guid: 076776b6c14a6334da7154721a66cd45, type: 3}
       propertyPath: _audioSource
       value: 
