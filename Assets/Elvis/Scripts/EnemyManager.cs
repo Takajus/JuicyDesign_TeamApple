@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    private static EnemyManager _instance;
+    public static EnemyManager Instance { get { return _instance; } }
+
     [SerializeField]
     private GameObject enemyPrefab;
 
@@ -34,6 +37,17 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private Material[] materials;
+
+    private void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -111,6 +125,42 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(ShotDelay());
     }
 
+    public void DestroyEnemyInSameLine(GameObject enemy)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject e in enemies)
+        {
+            if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
+            {
+                JuicyManager.Instance.DestructionSystem(e);
+                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                
+                SoundManager.Instance.PlaySound("Destruction alien");
+                
+                Destroy(e);
+            }
+        }
+    }
+
+    public void DestroyEnemyInSameColumn(GameObject enemy)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject e in enemies)
+        {
+            if (Math.Abs(e.transform.position.x - enemy.transform.position.x) < 0.2f)
+            {
+                JuicyManager.Instance.DestructionSystem(e);
+                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                
+                SoundManager.Instance.PlaySound("Destruction alien");
+                
+                // delay for destroy
+
+                Destroy(e);
+            }
+        }
+    }
+    
     private IEnumerator ShotDelay()
     {
         yield return new WaitForSeconds(fireRate);
