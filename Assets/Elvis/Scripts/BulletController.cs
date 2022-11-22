@@ -37,7 +37,7 @@ public class BulletController : MonoBehaviour
 
     private void BulletHitPlayer(GameObject player)
     {
-        player.GetComponent<PlayerController>().GetDamage(1);
+        PlayerController.Instance.GetDamage(1);
         Destroy(gameObject);
     }
     
@@ -48,6 +48,7 @@ public class BulletController : MonoBehaviour
                 
         SoundManager.Instance.PlaySound("Destruction alien");
         
+        Destroy(enemy);
         DestroyBullet();
     }
 
@@ -64,8 +65,8 @@ public class BulletController : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 // EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
-
-                other.gameObject.GetComponent<EnemyController>().KillEnemy();
+                
+                BulletHitEnemy(other.gameObject);
                 DestroyBullet();
             }
         }
@@ -79,5 +80,21 @@ public class BulletController : MonoBehaviour
         
         if (other.CompareTag("Bullet") || other.CompareTag("EnemyShield"))
             DestroyBullet();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Zone"))
+        {
+            switch (_direction)
+            {
+                case 1:
+                    DestroyBullet();
+                    break;
+                default:
+                    Destroy(gameObject);
+                    break;
+            }
+        }
     }
 }
