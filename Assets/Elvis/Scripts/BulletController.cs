@@ -7,32 +7,51 @@ using Random = System.Random;
 
 public class BulletController : MonoBehaviour
 {
-    private VisualEffect visualEffect;
+    private VisualEffect _visualEffect;
+    
     [SerializeField]
     private float speed = 10f;
     [SerializeField]
     private float lifeTime = 2f;
 
-    protected int _direction = 1;
+    protected bool IsEnemyBullet = false;
+    protected bool CanBounce = false;
+    protected int Direction = 1;
     
     protected void Start()
     {
         Destroy(gameObject, lifeTime);
 
-        visualEffect = GetComponent<VisualEffect>();
+        _visualEffect = GetComponent<VisualEffect>();
 
-        visualEffect.SetFloat("lifetime", lifeTime);
+        _visualEffect.SetFloat("lifetime", lifeTime);
     }
 
     // Update is called once per frame
     protected void Update()
     {
-        transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
+        transform.position += Vector3.forward * (Direction * (speed * Time.deltaTime));
+    }
+
+    public void SetIsEnemyBullet(bool value = false)
+    {
+        if (!value)
+        {
+            SetDirection(1);
+            IsEnemyBullet = false;
+        }
+        else
+        {
+            SetDirection(-1);
+            IsEnemyBullet = true;
+            CanBounce = true;
+        }
+        
     }
     
-    public void SetDirection(int direction)
+    private void SetDirection(int direction)
     {
-        _direction = direction;
+        Direction = direction;
     }
 
     private void BulletHitPlayer(GameObject player)
@@ -52,6 +71,12 @@ public class BulletController : MonoBehaviour
         DestroyBullet();
     }
 
+    private void BulletHitShield(GameObject shield)
+    {
+        shield.GetComponent<ShieldController>().GetHit();
+        DestroyBullet();
+    }
+
     private void DestroyBullet()
     {
         PlayerController.Instance.SetCanShot();
@@ -60,7 +85,7 @@ public class BulletController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (_direction == 1)
+        if (!IsEnemyBullet)
         {
             if (other.CompareTag("Enemy"))
             {
@@ -69,31 +94,41 @@ public class BulletController : MonoBehaviour
                 BulletHitEnemy(other.gameObject);
                 DestroyBullet();
             }
+            
+            if (other.CompareTag("Bullet"))
+                DestroyBullet();
+            
+            if (other.CompareTag("Shield"))
+                BulletHitShield(other.gameObject);
         }
         else
         {
             if (other.CompareTag("Player")) 
-            {
                 BulletHitPlayer(other.gameObject);
-            }
+            if (other.CompareTag("Bullet"))
+                Destroy(gameObject);
         }
-        
-        if (other.CompareTag("Bullet") || other.CompareTag("EnemyShield"))
-            DestroyBullet();
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Zone"))
         {
-            switch (_direction)
+            if (IsEnemyBullet)
             {
-                case 1:
-                    DestroyBullet();
-                    break;
-                default:
+                if (CanBounce)
+                {
+                    Direction *= -1;
+                    CanBounce = false;
+                }
+                else
+                {
                     Destroy(gameObject);
-                    break;
+                }
+            }
+            else
+            {
+                DestroyBullet();
             }
         }
     }
