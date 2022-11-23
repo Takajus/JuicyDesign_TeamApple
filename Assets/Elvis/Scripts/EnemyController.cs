@@ -46,10 +46,16 @@ public class EnemyController : MonoBehaviour
             EnemyManager.Instance.SetCanShotTrue(false);
             GameObject bulletInstance = Instantiate(bullet, weapon.transform.position, Quaternion.Euler(90, 0, 0));
             
-            bulletInstance.GetComponent<BulletController>().SetDirection(-1);
+            bulletInstance.GetComponent<BulletController>().SetIsEnemyBullet(true);
         }
     }
 
+    public void KillEnemy()
+    {
+        SoundManager.Instance.PlaySound("EnemyDeath");
+        Destroy(gameObject);
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

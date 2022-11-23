@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     private SoundManager _soundManager;
     private bool _isGameIsEnd = false;
 
+    [Range(0, 200)]
+    [SerializeField]
+    private int _bfgRage;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -35,6 +39,18 @@ public class GameManager : MonoBehaviour
         }
         else if(scene.name == "SampleScene")
         _soundManager.PlaySound("GameMusic");
+    }
+
+    public void SetRageBFG()
+    {
+        if (_bfgRage >= 200)
+        {
+            PlayerController.Instance.SetCanUseBFG();
+        }
+        else
+        {
+            // _bfgRage += 
+        }
     }
     
     private void EndGame()

@@ -26,12 +26,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _bullet;
 
+    [SerializeField] 
+    private GameObject _bfg;
+
     private GameObject _weapon;
+
+    [Header("Sound")]
+    [SerializeField] 
+    private string _soundBullet;
+    [SerializeField] 
+    private string _bfgSound;
     
     [SerializeField]
     private List<GameObject> _weapons;
 
     private bool _canShot = true;
+    private bool _canUseBfg = false;
     
     // [SerializeField]
     // private AudioSource _audioSource;
@@ -67,20 +77,43 @@ public class PlayerController : MonoBehaviour
     
     private void Shot()
     {
-        if (!Input.GetButtonDown("Fire1")) return;
-        
-        if (_bullet)
-            Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
-        
-        SoundManager.Instance.PlaySound("Shot");
-        _canShot = false;
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoting(_bullet, _soundBullet);
+        }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            if (_canUseBfg)
+            {
+                Shoting(_bullet, _bfgSound);
+                _canUseBfg = false;
+            }
+            else
+            {
+                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+            }
+        }
 
         // StartCoroutine(ShotTimer());
+    }
+
+    private void Shoting(GameObject obj, string sound)
+    {
+        if (obj)
+            Instantiate(obj, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
+        
+        SoundManager.Instance.PlaySound(sound);
+        _canShot = false;
     }
 
     public void SetCanShot(bool value = true)
     {
         _canShot = true;
+    }
+    
+    public void SetCanUseBFG(bool value = true)
+    {
+        _canUseBfg = value;
     }
     
     private void SwapWeapon()
