@@ -82,14 +82,23 @@ public class EnemyManager : MonoBehaviour
             {
                 GameObject enemy = Instantiate(enemyPrefab, 
                     new Vector3(center.x + i * distance, 1, center.y + j * distance), 
-                    Quaternion.Euler(90, 0, 0));
-                
+                    Quaternion.Euler(0, 0, 0));
+
                 if (i == 0)
-                    enemy.GetComponent<Renderer>().material = materials[0];
+                {
+                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[0];
+                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
+                }
                 else if (i == line - 1)
-                    enemy.GetComponent<Renderer>().material = materials[1];
+                {
+                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[1];
+                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
+                }
                 else
-                    enemy.GetComponent<Renderer>().material = materials[2];
+                {
+                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[2];
+                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
+                }
 
                 enemy.transform.SetParent(gameObject.transform);
             }
