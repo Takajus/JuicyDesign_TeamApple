@@ -28,7 +28,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _soundManager.PlaySound("Theme");
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "Menu")
+        {
+            _soundManager.PlaySound("MenuMusic");
+        }
+        else if(scene.name == "SampleScene")
+        _soundManager.PlaySound("GameMusic");
     }
     
     private void EndGame()

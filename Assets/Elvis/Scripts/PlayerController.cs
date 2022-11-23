@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         if (_bullet)
             Instantiate(_bullet, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
-        SoundManager.Instance.PlaySound("PlayerShot");
+        SoundManager.Instance.PlaySound("Shot");
         _canShot = false;
 
         // StartCoroutine(ShotTimer());

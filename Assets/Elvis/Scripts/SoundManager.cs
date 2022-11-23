@@ -25,7 +25,19 @@ public class SoundManager : MonoBehaviour
         {
             s.source = gameObject.AddComponent<AudioSource>();
 
-            s.source.clip = s.clip;
+            if(s.clips.Length > 1)
+            {
+               int index = UnityEngine.Random.Range(0, s.clips.Length);
+               s.source.clip = s.clips[index];
+            }
+            else if (s.clips.Length != 0)
+            {
+                s.source.clip = s.clips[0];
+            }
+            else
+            {
+                Debug.LogError("has no clip!");
+            }
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
