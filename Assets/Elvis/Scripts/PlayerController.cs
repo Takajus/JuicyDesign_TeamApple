@@ -79,18 +79,19 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Shoting(_bullet, _soundBullet);
+            Shoting(_bullet, "Shot");
         }
         else if (Input.GetButtonDown("Fire2"))
         {
             if (_canUseBfg)
             {
-                Shoting(_bullet, _bfgSound);
+                Shoting(_bullet, "BFGAvailable");
                 _canUseBfg = false;
             }
             else
             {
                 JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+                SoundManager.Instance.PlaySound("BFGUnavailable");
             }
         }
 
