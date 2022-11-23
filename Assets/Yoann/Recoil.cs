@@ -12,6 +12,11 @@ public class Recoil : MonoBehaviour
     private float timer;
     private float curveValue;
 
+    private float x;
+    private float y;
+    private float z;
+
+
     //editable values
     public float speed;
     public float length;
@@ -41,7 +46,7 @@ public class Recoil : MonoBehaviour
             curveValue = length * curve.Evaluate(timer);
 
             // You just have to change it to the right dimension (x, y, z)
-            transform.position = new Vector3(0, 0, -curveValue);
+            transform.position = new Vector3(0, 0, 0 - curveValue);
         }
 
         // timer resets after 1 because this is considered a lerp
