@@ -10,13 +10,22 @@ public class Recoil : MonoBehaviour
     private bool isKey;
 
     private float timer;
-    public float curveValue;
+    private float curveValue;
+
+    private float x;
+    private float y;
+    private float z;
+
+
+    //editable values
     public float speed;
     public float length;
 
     void Start()
     {
         transform = GetComponent<Transform>();
+
+        // Insuring the bool is set to false at the start.
         isKey = false;
     }
 
@@ -30,13 +39,17 @@ public class Recoil : MonoBehaviour
 
         if (isKey) 
         {
+            // the timer is deltatime * speed where speed just accelerates time
             timer += speed * Time.deltaTime;
+
+            // the length is just a factor on the "lerp function": Evaluate
             curveValue = length * curve.Evaluate(timer);
 
             // You just have to change it to the right dimension (x, y, z)
-            transform.position = new Vector3(0, 0 , -curveValue);
+            transform.position = new Vector3(0, 0, 0 - curveValue);
         }
 
+        // timer resets after 1 because this is considered a lerp
         if (timer >= 1)
         {
             timer = 0;
