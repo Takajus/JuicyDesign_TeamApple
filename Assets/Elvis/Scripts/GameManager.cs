@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         if (_bfgRage >= _rageMaxValue)
         {
-            PlayerController.Instance.SetCanUseBFG();
+            PlayerController.Instance.SetCanUseBfg();
         }
         else
         {
