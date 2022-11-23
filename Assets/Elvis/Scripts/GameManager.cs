@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     private SoundManager _soundManager;
     private bool _isGameIsEnd = false;
 
+    [Range(0, 200)]
+    [SerializeField]
+    private int _bfgRage;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -28,7 +32,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _soundManager.PlaySound("Theme");
+        // _soundManager.PlaySound("Theme");
+    }
+
+    public void SetRageBFG()
+    {
+        if (_bfgRage >= 200)
+        {
+            PlayerController.Instance.SetCanUseBFG();
+        }
+        else
+        {
+            // _bfgRage += 
+        }
     }
     
     private void EndGame()
