@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
             {
                 Shoting(_bullet, _bfgSound);
                 _canUseBfg = false;
+                GameManager.Instance.ResetRageBFG();
             }
             else
             {

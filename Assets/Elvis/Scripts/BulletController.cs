@@ -62,11 +62,14 @@ public class BulletController : MonoBehaviour
     
     private void BulletHitEnemy(GameObject enemy)
     {
+        int point = UnityEngine.Random.Range(10, 20);
+        
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
-        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(10, 20)}");
+        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{point}");
                 
         SoundManager.Instance.PlaySound("Destruction alien");
         
+        GameManager.Instance.SetRageBFG(point);
         Destroy(enemy);
         DestroyBullet();
     }
