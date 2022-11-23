@@ -63,7 +63,7 @@ public class BulletController : MonoBehaviour
     private void BulletHitEnemy(GameObject enemy)
     {
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
-        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, "13");
+        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(10, 20)}");
                 
         SoundManager.Instance.PlaySound("Destruction alien");
         

@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour
                 Shoting(_bullet, _bfgSound);
                 _canUseBfg = false;
             }
+            else
+            {
+                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+            }
         }
 
         // StartCoroutine(ShotTimer());
