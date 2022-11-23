@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - EnemyShield
   - PlayerShield
+  - Zone
+  - Shield
   layers:
   - Default
   - TransparentFX
