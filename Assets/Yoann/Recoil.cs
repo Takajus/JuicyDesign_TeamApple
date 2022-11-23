@@ -45,8 +45,12 @@ public class Recoil : MonoBehaviour
             // the length is just a factor on the "lerp function": Evaluate
             curveValue = length * curve.Evaluate(timer);
 
+            x = transform.position.x;
+            y = transform.position.y;
+            z = transform.position.z;
+
             // You just have to change it to the right dimension (x, y, z)
-            transform.position = new Vector3(0, 0, 0 - curveValue);
+            transform.position = new Vector3(x, y, z - curveValue);
         }
 
         // timer resets after 1 because this is considered a lerp
