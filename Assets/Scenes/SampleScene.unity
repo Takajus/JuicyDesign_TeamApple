@@ -1375,6 +1375,14 @@ PrefabInstance:
       propertyPath: sounds.Array.data[13].clips.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: 60a6d4d6722c40145bba106cf87cd752, type: 3}
+    - target: {fileID: 7915999464894982645, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: maxRage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915999464894982645, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: _bfgRage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7376455660417982005, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}

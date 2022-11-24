@@ -83,11 +83,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            Shoting(_bfg, "BFGAvailable");
-            
             if (_canUseBfg)
             {
                 Shoting(_bfg, "BFGAvailable");
+                GameManager.Instance.ResetBFG();
                 _canUseBfg = false;
             }
             else
