@@ -38,7 +38,7 @@ public class BFG : MonoBehaviour
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
         JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(40, 50)}");
 
-        SoundManager.Instance.PlaySound("AlienDeath");
+        SoundManager.Instance.PlaySound("BFGHit");
 
         DestroyBullet();
     }
