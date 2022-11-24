@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c351e4d3455ca6f4fb85349e58768ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bfgRage: 0
+  maxRage: 0
 --- !u!1 &7376455660377135256
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,13 +92,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d1eb922d81cef4880bb88632d2f6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5535771723418471912, guid: 01e8391760b0f8a489b76c97ea3c19f5, type: 3}
+  enemyPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   line: 6
   column: 3
   distance: 1.5
   distanceToPlayer: 1
   distanceToMove: 1
-  delay: 1.5
+  movementDelay: 2.5
   fireRate: 1.25
   materials: []
 --- !u!1 &7376455660417982154
@@ -145,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Theme
-    clip: {fileID: 8300000, guid: 393fd41e57398e74983b035f99058b32, type: 3}
+    clips: []
     volume: 1
     pitch: 0.78
     source: {fileID: 0}
