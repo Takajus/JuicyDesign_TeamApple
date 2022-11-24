@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour
 
     public void GetDamage(int damage)
     {
+        GetComponent<CameraShake>().enabled = true;
+        
         health -= damage;
         
         if (health <= 0)
