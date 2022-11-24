@@ -14,9 +14,7 @@ public class BFG : MonoBehaviour
     [SerializeField]
     private float lifeTime = 2f;
 
-    protected bool IsEnemyBullet = false;
-    protected bool CanBounce = false;
-    protected int Direction = 1;
+    private int _direction = 1;
 
     protected void Start() 
     {
@@ -31,52 +29,17 @@ public class BFG : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        transform.position += Vector3.forward * (Direction * (speed * Time.deltaTime));
-    }
-
-    public void SetIsEnemyBullet(bool value = false)
-    {
-        if (!value)
-        {
-            SetDirection(1);
-            IsEnemyBullet = false;
-        }
-        else
-        {
-            SetDirection(-1);
-            IsEnemyBullet = true;
-            CanBounce = true;
-        }
-
-    }
-
-    private void SetDirection(int direction)
-    {
-        Direction = direction;
-    }
-
-    private void BulletHitPlayer(GameObject player)
-    {
-        PlayerController.Instance.GetDamage(1);
-        SoundManager.Instance.PlaySound("PlayerDeath");
-        Destroy(gameObject);
+        transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
     }
 
     private void BulletHitEnemy(GameObject enemy)
     {
         EnemyManager.Instance.DestroyEnemyInSameLine(enemy);
-        //JuicyManager.Instance.DestructionSystem(enemy.gameObject);
+        JuicyManager.Instance.DestructionSystem(enemy.gameObject);
         JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(40, 50)}");
 
         SoundManager.Instance.PlaySound("AlienDeath");
 
-        Destroy(enemy);
-        DestroyBullet();
-    }
-
-    private void BulletHitShield(GameObject shield)
-    {
-        shield.GetComponent<ShieldController>().GetHit();
         DestroyBullet();
     }
 
@@ -88,31 +51,14 @@ public class BFG : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsEnemyBullet)
+        if (other.CompareTag("Enemy"))
         {
-            if (other.CompareTag("Enemy"))
-            {
-                // EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
-
-                BulletHitEnemy(other.gameObject);
-                DestroyBullet();
-            }
-
-            if (other.CompareTag("Bullet"))
-                DestroyBullet();
-
-            if (other.CompareTag("Shield"))
-                BulletHitShield(other.gameObject);
+            BulletHitEnemy(other.gameObject);
         }
-        else
+
+        if (other.CompareTag("Shield"))
         {
-            if (other.CompareTag("Player"))
-                BulletHitPlayer(other.gameObject);
-            if (other.CompareTag("Bullet"))
-            {
-                SoundManager.Instance.PlaySound("ProjectileDestroyed");
-                Destroy(gameObject);
-            }
+            DestroyBullet();
         }
     }
 
@@ -120,22 +66,7 @@ public class BFG : MonoBehaviour
     {
         if (other.CompareTag("Zone"))
         {
-            if (IsEnemyBullet)
-            {
-                if (CanBounce)
-                {
-                    Direction *= -1;
-                    CanBounce = false;
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
-            }
-            else
-            {
-                DestroyBullet();
-            }
+            DestroyBullet();
         }
     }
 }
