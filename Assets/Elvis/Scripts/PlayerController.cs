@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
+        Destroy(gameObject);
         GameManager.Instance.SetEndGame();
     }
 

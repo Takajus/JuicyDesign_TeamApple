@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private float distanceToMove = 1;
     [SerializeField]
-    private float delay = 1.5f;
+    private float movementDelay = 1.5f;
 
     private bool _canMove = true;
     
@@ -107,7 +107,7 @@ public class EnemyManager : MonoBehaviour
     private IEnumerator MoveEnemyToPlayerCoroutine()
     {
         MoveEnemyToPlayer();
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(movementDelay);
         _canMove = true;
     }
     
@@ -125,14 +125,30 @@ public class EnemyManager : MonoBehaviour
     public void DestroyEnemyInSameLine(GameObject enemy)
     {
         //GameObject[] Lightning = GameObject.FindGameObjectsWithTag("Lightning");
+        //GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //foreach (GameObject e in Lightning)
+        //foreach (GameObject e in enemies)
         //{
         //    if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
         //    {
-        //        e.SetActive(true);
+        //        GameObject[] Lightning = GameObject.FindGameObjectsWithTag("Lightning");
+        //        foreach (GameObject l in Lightning)
+        //        {
+        //            l.SetActive(true);
+        //        }
+        //        JuicyManager.Instance.DestructionSystem(e);
+        //        JuicyManager.Instance.PopUpScoreSystem(e, "13");
+
+        //        SoundManager.Instance.PlaySound("Destruction alien");
+
+        //        Destroy(e);
         //    }
         //}
+
+
+
+
+
 
         StartCoroutine(ElectricDelay(enemy));
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
