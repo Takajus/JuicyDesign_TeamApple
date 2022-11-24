@@ -33,11 +33,14 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private float fireRate;
+    [SerializeField]
+    private float speed;
 
-    private float electricTime = 2;
-    
+    private float _electricTime = 2;
     private bool _canShot = true;
 
+    private int _direction = 1;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -53,7 +56,7 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         _tr = GetComponent<Transform>();
-        electricTime = 2;
+        _electricTime = 2;
         SpawnEnemies();
     }
 
@@ -67,8 +70,10 @@ public class EnemyManager : MonoBehaviour
         
         if (_canMove)
             StartCoroutine(MoveEnemyToPlayerCoroutine());
+        
+        MoveHorizontal();
     }
-    
+
     private void SpawnEnemies()
     {
         Vector3 center = _tr.position - 
@@ -88,6 +93,16 @@ public class EnemyManager : MonoBehaviour
                 enemy.transform.SetParent(gameObject.transform);
             }
         }
+    }
+
+    private void MoveHorizontal()
+    {
+        _tr.position += Vector3.right * _direction * speed * Time.deltaTime;
+    }
+
+    public void SetDirection(int dir)
+    {
+        _direction = dir;
     }
 
     private void MoveEnemyToPlayer()
@@ -192,7 +207,7 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator ElectricDelay(GameObject enemy)
     {
-        yield return new WaitForSeconds(electricTime);
+        yield return new WaitForSeconds(_electricTime);
 
     }
 }
