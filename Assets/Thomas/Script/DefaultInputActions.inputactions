@@ -771,6 +771,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "AppleGame",
+            "id": "15680df3-7467-4190-a83d-4b381f929f2f",
+            "actions": [
+                {
+                    "name": "TriggerTest",
+                    "type": "Button",
+                    "id": "333923b6-f9fd-48fd-9fe8-705cb669a11c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9ece5a86-ac3f-46f6-84ed-09bebb1e3ac7",
+                    "path": "<OculusTouchController>{RightHand}/triggerTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "TriggerTest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
