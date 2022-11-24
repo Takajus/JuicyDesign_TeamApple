@@ -107,7 +107,8 @@ public class JuicyManager : MonoBehaviour
         {
             tempPrefab = Instantiate(popUpScorePrefab, player.transform.position, player.transform.rotation);
         }
-        tempPrefab.GetComponent<TextMesh>().text = score;
+        //tempPrefab.GetChildComponent<TextMesh>().text = score;
+        tempPrefab.GetComponentInChildren<TextMesh>().text = score;
     }
 
     public void DestructionSystem(GameObject obj = null)
