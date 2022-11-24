@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     [Range(0, 200)]
     [SerializeField]
     private int _bfgRage;
+
+    [SerializeField]
+    private int maxRage;
     
     private void Awake()
     {
@@ -41,17 +44,22 @@ public class GameManager : MonoBehaviour
         _soundManager.PlaySound("GameMusic");
     }
 
-    public void SetRageBFG()
+    public void SetRageBFG(int rage)
     {
-        if (_bfgRage >= 200)
+        if (_bfgRage >= maxRage)
         {
             PlayerController.Instance.SetCanUseBFG();
             SoundManager.Instance.PlaySound("BFGAvailable");
         }
         else
         {
-            // _bfgRage += 
+            _bfgRage += rage;
         }
+    }
+
+    public void ResetBFG()
+    {
+        _bfgRage = 0;
     }
     
     private void EndGame()

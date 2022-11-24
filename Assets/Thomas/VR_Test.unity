@@ -163,26 +163,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3bd4fa2bc8735488ce41c9ea5a09d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input:
+  trigger:
     m_UseReference: 1
     m_Action:
-      m_Name: Input
+      m_Name: Trigger
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 242014ea-3639-4d5f-9c72-618994c01ca9
+      m_Id: e3e2cf60-4a17-4284-9def-12f92f7fbd42
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: 1bc85d90-1fa3-42d5-8d37-40be05e5a7b7
-        m_Path: 
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Input
-        m_Flags: 0
+      m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 1120369429361536294, guid: 007c9b868acb6c84b89b64bf79322711, type: 3}
+    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  movement:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Movement
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: aeb2a964-a78c-4b5a-9f2f-72a573202fc5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 282076200879899528, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!4 &830378148
 Transform:
   m_ObjectHideFlags: 0
@@ -377,6 +381,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5767222273459720680, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767222273726339072, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767222273746633236, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
+      objectReference: {fileID: 3452768581947085763, guid: ae287fe278039af48acede44dee65b8a, type: 3}
     - target: {fileID: 5767222273746633236, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
       propertyPath: m_SelectAction.m_Reference
       value: 
@@ -545,6 +561,10 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 598061819}
+    - target: {fileID: 5767222274736124221, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_ModelPrefab
+      value: 
+      objectReference: {fileID: 3452768581947085763, guid: ae287fe278039af48acede44dee65b8a, type: 3}
     - target: {fileID: 5767222274736124221, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
       propertyPath: m_SelectAction.m_Reference
       value: 
@@ -749,5 +769,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767222274879049650, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_ActionAssets.Array.data[0]
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
