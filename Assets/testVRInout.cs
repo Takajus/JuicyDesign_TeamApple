@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class testVRInout : MonoBehaviour
 {
-    public InputActionProperty input;
+    public InputActionProperty trigger, movement;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +16,15 @@ public class testVRInout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.action.WasPressedThisFrame())
+        if (trigger.action.WasPressedThisFrame())
         {
-            print("test");
+            Debug.Log("test");
         }
+
+        Debug.Log(movement.action.WasPerformedThisFrame().ToString());
+        Debug.Log(movement.action.ReadValue<Vector2>().x.ToString());
+
+        Vector2 move = movement.action.ReadValue<Vector2>();
+        Debug.Log(move.x.ToString() + " " + move.y.ToString());
     }
 }
