@@ -13,36 +13,42 @@ public class PlayerController : MonoBehaviour
     
     [Header("Stats")]
     [SerializeField] 
-    private int _health;
+    private int health;
 
     [SerializeField]
-    private float _speed;
+    private float speed;
     [SerializeField]
-    private float _fireRate;
+    private float boostSpeed;
+    [SerializeField]
+    private float fireRate;
+
+    private float _speedTemp;
     
     [Header("Weapon")]
     [SerializeField]
-    private GameObject _weaponPosition;
+    private GameObject weaponPosition;
     [SerializeField]
-    private GameObject _bullet;
+    private GameObject bullet;
 
     [SerializeField] 
-    private GameObject _bfg;
+    private GameObject bfg;
 
     private GameObject _weapon;
 
     [Header("Sound")]
     [SerializeField] 
-    private string _soundBullet;
+    private string soundBullet;
     [SerializeField] 
-    private string _bfgSound;
+    private string bfgSound;
     
     [SerializeField]
-    private List<GameObject> _weapons;
+    private List<GameObject> weapons;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
-    
+    private bool _useBoost = false;
+    private int _currentDir = 0;
+
     // [SerializeField]
     // private AudioSource _audioSource;
 
@@ -52,6 +58,11 @@ public class PlayerController : MonoBehaviour
             _instance = this;
         else
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        _speedTemp = speed;
     }
 
     // Update is called once per frame
@@ -71,10 +82,26 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
-        transform.position += direction * (_speed * Time.deltaTime);
+        if (horizontal > 0 && _currentDir != 1)
+        {
+            _currentDir = 1;
+            
+            if (!_useBoost)
+                StartCoroutine(LerpBoost());
+        }
+        else if (horizontal < 0 && _currentDir != -1)
+        {
+            _currentDir = -1;
+            
+            if (!_useBoost)
+                StartCoroutine(LerpBoost());
+        }
+        
+        transform.position += direction * (speed * Time.deltaTime);
         // transform.Translate(direction * (speed * Time.deltaTime));
     }
-    
+
+    // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -87,6 +114,7 @@ public class PlayerController : MonoBehaviour
             {
                 Shoting(_bullet, "BFGAvailable");
                 _canUseBfg = false;
+                GameManager.Instance.ResetRageBFG();
             }
             else
             {
@@ -101,7 +129,7 @@ public class PlayerController : MonoBehaviour
     private void Shoting(GameObject obj, string sound)
     {
         if (obj)
-            Instantiate(obj, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
+            Instantiate(obj, weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
         SoundManager.Instance.PlaySound(sound);
         _canShot = false;
@@ -112,7 +140,7 @@ public class PlayerController : MonoBehaviour
         _canShot = true;
     }
     
-    public void SetCanUseBFG(bool value = true)
+    public void SetCanUseBfg(bool value = true)
     {
         _canUseBfg = value;
     }
@@ -121,10 +149,10 @@ public class PlayerController : MonoBehaviour
     {
         _weapon.gameObject.SetActive(false);
         
-        int currIdx = _weapons.IndexOf(_weapon);
-        int nextIdx = (currIdx + 1) % _weapons.Count;
+        int currIdx = weapons.IndexOf(_weapon);
+        int nextIdx = (currIdx + 1) % weapons.Count;
         
-        _weapon = _weapons[nextIdx];
+        _weapon = weapons[nextIdx];
         _weapon.gameObject.SetActive(true);
     }
     
@@ -140,14 +168,14 @@ public class PlayerController : MonoBehaviour
 
     public int GetHealth()
     {
-        return _health;
+        return health;
     }
 
     public void GetDamage(int damage)
     {
-        _health -= damage;
+        health -= damage;
         
-        if (_health <= 0)
+        if (health <= 0)
         {
             KillPlayer();
         }
@@ -160,10 +188,29 @@ public class PlayerController : MonoBehaviour
         SoundManager.Instance.PlaySound("PlayerDeath");
         GameManager.Instance.SetEndGame();
     }
-    
+
+    private IEnumerator LerpBoost()
+    {
+        _useBoost = true;
+        
+        float t = 0;
+        float startSpeed = boostSpeed;
+        float endSpeed = speed;
+        
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            speed = Mathf.Lerp(startSpeed, endSpeed, t);
+            yield return null;
+        }
+
+        speed = _speedTemp;
+        _useBoost = false;
+    }
+
     private IEnumerator ShotTimer()
     {
-        yield return new WaitForSeconds(_fireRate);
+        yield return new WaitForSeconds(fireRate);
         _canShot = true;
     }
 }

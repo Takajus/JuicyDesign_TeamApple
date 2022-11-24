@@ -14,9 +14,9 @@ public class BulletController : MonoBehaviour
     [SerializeField]
     private float lifeTime = 2f;
 
-    protected bool IsEnemyBullet = false;
-    protected bool CanBounce = false;
-    protected int Direction = 1;
+    private bool _isEnemyBullet = false;
+    private bool _canBounce = false;
+    private int _direction = 1;
     
     protected void Start()
     {
@@ -30,7 +30,7 @@ public class BulletController : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-        transform.position += Vector3.forward * (Direction * (speed * Time.deltaTime));
+        transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
     }
 
     public void SetIsEnemyBullet(bool value = false)
@@ -38,20 +38,20 @@ public class BulletController : MonoBehaviour
         if (!value)
         {
             SetDirection(1);
-            IsEnemyBullet = false;
+            _isEnemyBullet = false;
         }
         else
         {
             SetDirection(-1);
-            IsEnemyBullet = true;
-            CanBounce = true;
+            _isEnemyBullet = true;
+            _canBounce = true;
         }
         
     }
     
     private void SetDirection(int direction)
     {
-        Direction = direction;
+        _direction = direction;
     }
 
     private void BulletHitPlayer(GameObject player)
@@ -63,11 +63,14 @@ public class BulletController : MonoBehaviour
     
     private void BulletHitEnemy(GameObject enemy)
     {
+        int point = UnityEngine.Random.Range(10, 20);
+        
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
-        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(10, 20)}");
+        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{point}");
                 
         SoundManager.Instance.PlaySound("AlienDeath");
         
+        GameManager.Instance.SetRageBFG(point);
         Destroy(enemy);
         DestroyBullet();
     }
@@ -86,7 +89,7 @@ public class BulletController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsEnemyBullet)
+        if (!_isEnemyBullet)
         {
             if (other.CompareTag("Enemy"))
             {
@@ -98,9 +101,6 @@ public class BulletController : MonoBehaviour
             
             if (other.CompareTag("Bullet"))
                 DestroyBullet();
-            
-            if (other.CompareTag("Shield"))
-                BulletHitShield(other.gameObject);
         }
         else
         {
@@ -112,18 +112,21 @@ public class BulletController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        
+        if (other.CompareTag("Shield"))
+            BulletHitShield(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Zone"))
         {
-            if (IsEnemyBullet)
+            if (_isEnemyBullet)
             {
-                if (CanBounce)
+                if (_canBounce)
                 {
-                    Direction *= -1;
-                    CanBounce = false;
+                    _direction *= -1;
+                    _canBounce = false;
                 }
                 else
                 {
