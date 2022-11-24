@@ -20,11 +20,26 @@ public class BFG : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
+            PlayerController.Instance.SetCanShot();
             Destroy(gameObject);
         }
 
         if (other.CompareTag("Shield"))
         {
+            other.GetComponent<ShieldController>().DestroyShield();
+        }
+
+        if (other.CompareTag("Bullet"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Zone"))
+        {
+            PlayerController.Instance.SetCanShot();
             Destroy(gameObject);
         }
     }

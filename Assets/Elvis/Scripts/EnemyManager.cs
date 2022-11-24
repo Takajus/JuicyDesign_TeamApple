@@ -37,9 +37,6 @@ public class EnemyManager : MonoBehaviour
     private float electricTime = 2;
     
     private bool _canShot = true;
-    
-    [SerializeField]
-    private Material[] materials;
 
     private void Awake()
     {

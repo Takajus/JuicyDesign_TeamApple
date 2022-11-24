@@ -73,7 +73,7 @@ public class BulletController : MonoBehaviour
                 
         SoundManager.Instance.PlaySound("AlienDeath");
         
-        GameManager.Instance.SetRageBFG(point);
+        GameManager.Instance.SetRageBFG(rageToAdd);
         Destroy(enemy);
         DestroyBullet();
     }
@@ -96,8 +96,6 @@ public class BulletController : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                // EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
-                
                 BulletHitEnemy(other.gameObject);
                 DestroyBullet();
             }
@@ -141,5 +139,10 @@ public class BulletController : MonoBehaviour
                 DestroyBullet();
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        PlayerController.Instance.SetCanShot();
     }
 }

@@ -18,34 +18,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed;
     [SerializeField]
-    private float _boostSpeed;
-
+    private float boostSpeed;
     private float _speedTemp;
     
     [Header("Weapon")]
     [SerializeField]
     private GameObject weaponPosition;
     [SerializeField]
-    private GameObject _bullet;
+    private GameObject bullet;
     [SerializeField] 
     private GameObject bfg;
-
-
-    [Header("Sound")]
-    [SerializeField] 
-    private string soundBullet;
-    [SerializeField] 
-    private string _bfgSound;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
     
     private bool _useBoost = false;
     private int _currentDir = 0;
-
-    // [SerializeField]
-    // private AudioSource _audioSource;
-
+    
     private void Awake()
     {
         if (_instance == null)
@@ -54,11 +43,6 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
     }
     
-    private void Start()
-    {
-        _speedTemp = _speed;
-    }
-
     private void Start()
     {
         _speedTemp = speed;
@@ -78,8 +62,6 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        //float horizontal = Input.GetAxis("Horizontal");
-        //Vector3 direction = new Vector3(horizontal, 0, 0);
         float horizontal = JuicyManager.Instance.vectorTest();
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
@@ -98,41 +80,21 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(LerpBoost());
         }
         
-        transform.position += direction * (_speed * Time.deltaTime);
+        transform.position += direction * (speed * Time.deltaTime);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
-        /*if (Input.GetButtonDown("Fire1"))
-        {
-            Shoting(_bullet, "Shot");
-        }
-        else if (Input.GetButtonDown("Fire2"))
-        {
-            if (_canUseBfg)
-            {
-                Shoting(_bullet, "BFGShot");
-                GameManager.Instance.ResetBFG();
-                _canUseBfg = false;
-                GameManager.Instance.ResetRageBFG();
-            }
-            else
-            {
-                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
-                SoundManager.Instance.PlaySound("BFGUnavailable");
-            }
-        }*/
-        
         if (JuicyManager.Instance.Fire1())
         {
-            Shoting(_bullet, "Shot");
+            Shoting(bullet, "Shot");
         }
         else if (JuicyManager.Instance.Fire2())
         {
             if (_canUseBfg)
             {
-                Shoting(_bullet, "BFGShot");
+                Shoting(bfg, "BFGShot");
                 GameManager.Instance.ResetBFG();
                 _canUseBfg = false;
             }
@@ -142,8 +104,6 @@ public class PlayerController : MonoBehaviour
                 SoundManager.Instance.PlaySound("BFGUnavailable");
             }
         }
-
-        // StartCoroutine(ShotTimer());
     }
 
     private void Shoting(GameObject obj, string sound)
@@ -195,7 +155,6 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
-        //gameObject
         GameManager.Instance.SetEndGame();
     }
 
@@ -204,17 +163,17 @@ public class PlayerController : MonoBehaviour
         _useBoost = true;
         
         float t = 0;
-        float startSpeed = _boostSpeed;
-        float endSpeed = _speed;
+        float startSpeed = boostSpeed;
+        float endSpeed = speed;
         
         while (t < 1)
         {
             t += Time.deltaTime;
-            _speed = Mathf.Lerp(startSpeed, endSpeed, t);
+            speed = Mathf.Lerp(startSpeed, endSpeed, t);
             yield return null;
         }
 
-        _speed = _speedTemp;
+        speed = _speedTemp;
         _useBoost = false;
     }
 }
