@@ -107,7 +107,7 @@ public class EnemyManager : MonoBehaviour
     private IEnumerator MoveEnemyToPlayerCoroutine()
     {
         MoveEnemyToPlayer();
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(movementDelay);
         _canMove = true;
     }
     
