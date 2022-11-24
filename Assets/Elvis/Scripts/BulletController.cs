@@ -64,7 +64,8 @@ public class BulletController : MonoBehaviour
     private void BulletHitEnemy(GameObject enemy)
     {
         int rageToAdd = UnityEngine.Random.Range(10, 20);
-        
+        GameManager.Instance.IncreaseScore(rageToAdd);
+
         GameManager.Instance.SetRageBFG(rageToAdd);
         
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);

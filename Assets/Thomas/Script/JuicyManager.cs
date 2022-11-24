@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class JuicyManager : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class JuicyManager : MonoBehaviour
 
     private string playerTag;
 
+    public InputActionProperty trigger, movement, test, trigger2;
+    public bool VrVsInput;
+
+    public bool temp, temp1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +41,14 @@ public class JuicyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (VrVsInput)
+                VrVsInput = false;
+            else if (!VrVsInput)
+                VrVsInput = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             PopUpScoreSystem();
@@ -76,6 +90,11 @@ public class JuicyManager : MonoBehaviour
 
         }
         tempPrefab = null;
+
+        temp = Fire1();
+        temp1 = Fire2();
+
+        Debug.Log(vectorTest().x.ToString());
     }
 
     public void PopUpScoreSystem(GameObject obj = null, string score = "Insert Parameter")
@@ -101,6 +120,55 @@ public class JuicyManager : MonoBehaviour
         {
             tempPrefab = Instantiate(destructionPrefeb, player.transform.position, player.transform.rotation);
         }
+    }
+
+    public bool Fire1()
+    {
+        bool tempBool = false;
+        if (VrVsInput)
+        {
+            tempBool = trigger.action.WasPressedThisFrame();
+        }
+        else if (!VrVsInput)
+        {
+            tempBool = Input.GetButtonDown("Fire1");
+        }
+        if(tempBool)
+            Debug.Log("Fire1");
+
+        return tempBool;
+    }
+
+    public bool Fire2()
+    {
+        bool tempBool = false;
+        if (VrVsInput)
+        {
+            tempBool = trigger2.action.WasPressedThisFrame();
+        }
+        else if (!VrVsInput)
+        {
+            tempBool = Input.GetButtonDown("Fire2");
+        }
+        if (tempBool)
+            Debug.Log("Fire2");
+
+        return tempBool;
+    }
+
+    Vector2 vectorTest()
+    {
+        Vector2 movement = new Vector2();
+        if (VrVsInput)
+            movement = test.action.ReadValue<Vector2>();
+        else if (!VrVsInput)
+        {
+            float velo = Input.GetAxis("Horizontal");
+            movement = new Vector3(velo, 0, 0);
+        }
+        Debug.Log($"move: {movement.x}, {movement.y}");
+
+        return movement;
     }
 
 }
