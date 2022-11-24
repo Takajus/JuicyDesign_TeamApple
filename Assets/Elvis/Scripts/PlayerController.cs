@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
     private bool _useBoost = false;
     private int _currentDir = 0;
     
+    private bool _canMoveLeft = true;
+    private bool _canMoveRight = true;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -80,7 +83,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(LerpBoost());
         }
         
-        transform.position += direction * (speed * Time.deltaTime);
+        if (_canMoveLeft && horizontal <= 0 || _canMoveRight && horizontal >= 0)
+            transform.position += direction * (speed * Time.deltaTime);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -177,5 +181,23 @@ public class PlayerController : MonoBehaviour
 
         speed = _speedTemp;
         _useBoost = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Left"))
+            _canMoveLeft = false;
+        
+        if (other.CompareTag("Right"))
+            _canMoveRight = false;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Left"))
+            _canMoveLeft = true;
+        
+        if (other.CompareTag("Right"))
+            _canMoveRight = true;
     }
 }

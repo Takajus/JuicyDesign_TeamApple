@@ -11,6 +11,8 @@ TagManager:
   - Zone
   - Shield
   - Lightning
+  - Left
+  - Right
   layers:
   - Default
   - TransparentFX

@@ -94,7 +94,7 @@ public class JuicyManager : MonoBehaviour
         temp = Fire1();
         temp1 = Fire2();
 
-        Debug.Log(vectorTest().ToString());
+        // Debug.Log(vectorTest().ToString());
     }
 
     public void PopUpScoreSystem(GameObject obj = null, string score = "Insert Parameter")
