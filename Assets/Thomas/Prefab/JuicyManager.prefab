@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpScorePrefab: {fileID: 7910345167802716149, guid: 527a181095cf73942a4efcfba9a94044, type: 3}
-  destructionPrefeb: {fileID: 6198115573862609180, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
+  destructionPrefab: {fileID: 6198115573862609180, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
+  propulsionPrefab: {fileID: 1831518494700654570, guid: 3a63d9b89706a664d8739c6d4ec22744, type: 3}
   player: {fileID: 0}
   trigger:
     m_UseReference: 1

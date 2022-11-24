@@ -12,7 +12,8 @@ public class JuicyManager : MonoBehaviour
 
     public GameObject
         popUpScorePrefab,
-        destructionPrefeb;
+        destructionPrefab,
+        propulsionPrefab;
 
     [SerializeField]
     private GameObject player;
@@ -25,6 +26,8 @@ public class JuicyManager : MonoBehaviour
     public bool VrVsInput;
 
     public bool temp, temp1;
+
+    private Vector3 position1 = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -59,15 +62,15 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad3))
         {
-
+            
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {
-
+            Propulsion(-1f, 90f);
         }
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
-
+            Propulsion(1f, -90f);
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
@@ -115,13 +118,20 @@ public class JuicyManager : MonoBehaviour
     {
         if (obj)
         {
-            tempPrefab = Instantiate(destructionPrefeb, obj.transform.position, obj.transform.rotation);
+            tempPrefab = Instantiate(destructionPrefab, obj.transform.position, obj.transform.rotation);
         }
         else
         {
-            tempPrefab = Instantiate(destructionPrefeb, player.transform.position, player.transform.rotation);
+            tempPrefab = Instantiate(destructionPrefab, player.transform.position, player.transform.rotation);
         }
     }
+
+    public void Propulsion(float position, float rotation)
+    {
+        tempPrefab = Instantiate(propulsionPrefab, new Vector3(player.transform.position.x + position, player.transform.position.y, player.transform.position.z), new Quaternion(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z + rotation, player.transform.rotation.w), player.transform);
+    }
+
+    #region Input
 
     public bool Fire1()
     {
@@ -172,5 +182,6 @@ public class JuicyManager : MonoBehaviour
 
         return movementF;
     }
+    #endregion
 
 }
