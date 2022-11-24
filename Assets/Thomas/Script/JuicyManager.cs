@@ -94,7 +94,7 @@ public class JuicyManager : MonoBehaviour
         temp = Fire1();
         temp1 = Fire2();
 
-        Debug.Log(vectorTest().x.ToString());
+        Debug.Log(vectorTest().ToString());
     }
 
     public void PopUpScoreSystem(GameObject obj = null, string score = "Insert Parameter")
@@ -133,8 +133,8 @@ public class JuicyManager : MonoBehaviour
         {
             tempBool = Input.GetButtonDown("Fire1");
         }
-        if(tempBool)
-            Debug.Log("Fire1");
+        /*if(tempBool)
+            Debug.Log("Fire1");*/
 
         return tempBool;
     }
@@ -150,25 +150,26 @@ public class JuicyManager : MonoBehaviour
         {
             tempBool = Input.GetButtonDown("Fire2");
         }
-        if (tempBool)
-            Debug.Log("Fire2");
+        /*if (tempBool)
+            Debug.Log("Fire2");*/
 
         return tempBool;
     }
 
-    Vector2 vectorTest()
+    public float vectorTest()
     {
-        Vector2 movement = new Vector2();
+        float movementF = 0f;
         if (VrVsInput)
-            movement = test.action.ReadValue<Vector2>();
+        {
+            movementF = movement.action.ReadValue<Vector2>().x;
+        }
         else if (!VrVsInput)
         {
-            float velo = Input.GetAxis("Horizontal");
-            movement = new Vector3(velo, 0, 0);
+            movementF = Input.GetAxis("Horizontal");
         }
-        Debug.Log($"move: {movement.x}, {movement.y}");
+        //Debug.Log(movement.ToString());
 
-        return movement;
+        return movementF;
     }
 
 }

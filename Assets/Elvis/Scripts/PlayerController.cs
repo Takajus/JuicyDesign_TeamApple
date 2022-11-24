@@ -73,7 +73,9 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        //float horizontal = Input.GetAxis("Horizontal");
+        //Vector3 direction = new Vector3(horizontal, 0, 0);
+        float horizontal = JuicyManager.Instance.vectorTest();
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
         if (horizontal > 0 && _currentDir != 1)
@@ -96,11 +98,30 @@ public class PlayerController : MonoBehaviour
     
     private void Shot()
     {
-        if (Input.GetButtonDown("Fire1"))
+        /*if (Input.GetButtonDown("Fire1"))
         {
             Shoting(_bullet, "Shot");
         }
         else if (Input.GetButtonDown("Fire2"))
+        {
+            if (_canUseBfg)
+            {
+                Shoting(_bullet, "BFGShot");
+                GameManager.Instance.ResetBFG();
+                _canUseBfg = false;
+            }
+            else
+            {
+                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+                SoundManager.Instance.PlaySound("BFGUnavailable");
+            }
+        }*/
+        
+        if (JuicyManager.Instance.Fire1())
+        {
+            Shoting(_bullet, "Shot");
+        }
+        else if (JuicyManager.Instance.Fire2())
         {
             if (_canUseBfg)
             {
