@@ -18,31 +18,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _speed;
     [SerializeField]
-    private float _fireRate;
+    private float _boostSpeed;
+
+    private float _speedTemp;
     
     [Header("Weapon")]
     [SerializeField]
     private GameObject _weaponPosition;
     [SerializeField]
     private GameObject _bullet;
-
     [SerializeField] 
     private GameObject _bfg;
 
-    private GameObject _weapon;
 
     [Header("Sound")]
     [SerializeField] 
     private string _soundBullet;
     [SerializeField] 
     private string _bfgSound;
-    
-    [SerializeField]
-    private List<GameObject> _weapons;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
     
+    private bool _useBoost = false;
+    private int _currentDir = 0;
+
     // [SerializeField]
     // private AudioSource _audioSource;
 
@@ -52,6 +52,11 @@ public class PlayerController : MonoBehaviour
             _instance = this;
         else
             Destroy(gameObject);
+    }
+    
+    private void Start()
+    {
+        _speedTemp = _speed;
     }
 
     // Update is called once per frame
@@ -71,8 +76,22 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
+        if (horizontal > 0 && _currentDir != 1)
+        {
+            _currentDir = 1;
+            
+            if (!_useBoost)
+                StartCoroutine(LerpBoost());
+        }
+        else if (horizontal < 0 && _currentDir != -1)
+        {
+            _currentDir = -1;
+            
+            if (!_useBoost)
+                StartCoroutine(LerpBoost());
+        }
+        
         transform.position += direction * (_speed * Time.deltaTime);
-        // transform.Translate(direction * (speed * Time.deltaTime));
     }
     
     private void Shot()
@@ -83,11 +102,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            Shoting(_bfg, "BFGAvailable");
-            
             if (_canUseBfg)
             {
-                Shoting(_bfg, "BFGAvailable");
+                Shoting(_bullet, "BFGShot");
+                GameManager.Instance.ResetBFG();
                 _canUseBfg = false;
             }
             else
@@ -117,17 +135,6 @@ public class PlayerController : MonoBehaviour
     public void SetCanUseBFG(bool value = true)
     {
         _canUseBfg = value;
-    }
-    
-    private void SwapWeapon()
-    {
-        _weapon.gameObject.SetActive(false);
-        
-        int currIdx = _weapons.IndexOf(_weapon);
-        int nextIdx = (currIdx + 1) % _weapons.Count;
-        
-        _weapon = _weapons[nextIdx];
-        _weapon.gameObject.SetActive(true);
     }
     
     public int GetPlayerXPos()
@@ -160,12 +167,26 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
+        //gameObject
         GameManager.Instance.SetEndGame();
     }
-    
-    private IEnumerator ShotTimer()
+
+    private IEnumerator LerpBoost()
     {
-        yield return new WaitForSeconds(_fireRate);
-        _canShot = true;
+        _useBoost = true;
+        
+        float t = 0;
+        float startSpeed = _boostSpeed;
+        float endSpeed = _speed;
+        
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            _speed = Mathf.Lerp(startSpeed, endSpeed, t);
+            yield return null;
+        }
+
+        _speed = _speedTemp;
+        _useBoost = false;
     }
 }

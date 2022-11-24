@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,9 +13,17 @@ public class GameManager : MonoBehaviour
     private SoundManager _soundManager;
     private bool _isGameIsEnd = false;
 
+    public GameObject gameoverPanel;
+    public TextMeshProUGUI scoreValue;
+
     [Range(0, 200)]
     [SerializeField]
     private int _bfgRage;
+
+    [SerializeField]
+    private int maxRage;
+
+    private int score;
     
     private void Awake()
     {
@@ -41,24 +50,40 @@ public class GameManager : MonoBehaviour
         _soundManager.PlaySound("GameMusic");
     }
 
-    public void SetRageBFG()
+    public void SetRageBFG(int rage)
     {
-        PlayerController.Instance.SetCanUseBFG();
+        if (_bfgRage >= maxRage)
+        {
+            PlayerController.Instance.SetCanUseBFG();
+            SoundManager.Instance.PlaySound("BFGAvailable");
+        }
+        else
+        {
+            _bfgRage += rage;
+        }
+    }
 
-        //if (_bfgRage >= 200)
-        //{
-
-        //}
-        //else
-        //{
-        //    // _bfgRage += 
-        //}
+    public void ResetBFG()
+    {
+        _bfgRage = 0;
     }
     
     private void EndGame()
     {
         StopAllCoroutines();
         // Time.timeScale = 0;
+        SoundManager.Instance.PlaySound("Gameover");
+        gameoverPanel.SetActive(true);
+        scoreValue.text = score.ToString();
+    }
+
+    public void IncreaseScore(int value)
+    {
+        score += value;
+    }
+
+    public void replayButton()
+    {
         SceneManager.LoadScene("SampleScene");
     }
 
