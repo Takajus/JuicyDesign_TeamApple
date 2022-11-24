@@ -1648,6 +1648,14 @@ PrefabInstance:
       propertyPath: _bfgRage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7915999464894982645, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: scoreValue
+      value: 
+      objectReference: {fileID: 940847899}
+    - target: {fileID: 7915999464894982645, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: gameoverPanel
+      value: 
+      objectReference: {fileID: 1883314950}
     m_RemovedComponents:
     - {fileID: 7376455660417982005, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
@@ -1870,13 +1878,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1940404845}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: replayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2380,6 +2388,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928102420}
   m_CullTransparentMesh: 1
+--- !u!114 &1940404845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7915999464894982645, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+  m_PrefabInstance: {fileID: 1463701617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c351e4d3455ca6f4fb85349e58768ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2143199263
 GameObject:
   m_ObjectHideFlags: 0

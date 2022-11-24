@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     
     private bool _useBoost = false;
     private int _currentDir = 0;
-    
+
     // [SerializeField]
     // private AudioSource _audioSource;
 
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
-        Destroy(gameObject);
+        //gameObject
         GameManager.Instance.SetEndGame();
     }
 
