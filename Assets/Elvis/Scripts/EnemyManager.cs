@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyManager : MonoBehaviour
 {
     private static EnemyManager _instance;
-    public static EnemyManager Instance { get { return _instance; } }
+    public static EnemyManager Instance { get { return _instance; } }  
 
     [SerializeField]
-    private GameObject enemyPrefab;
+    private GameObject[] enemyPrefab;
 
     [SerializeField]
     private int line;
@@ -32,6 +33,8 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private float fireRate;
+
+    private float electricTime = 2;
     
     private bool _canShot = true;
     
@@ -53,7 +56,7 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         _tr = GetComponent<Transform>();
-
+        electricTime = 2;
         SpawnEnemies();
     }
 
@@ -80,25 +83,10 @@ public class EnemyManager : MonoBehaviour
         {
             for (int j = 0; j < column; ++j)
             {
-                GameObject enemy = Instantiate(enemyPrefab, 
+                int index = UnityEngine.Random.Range(0,4);
+                GameObject enemy = Instantiate(enemyPrefab[index], 
                     new Vector3(center.x + i * distance, 1, center.y + j * distance), 
                     Quaternion.Euler(0, 0, 0));
-
-                if (i == 0)
-                {
-                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[0];
-                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
-                }
-                else if (i == line - 1)
-                {
-                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[1];
-                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
-                }
-                else
-                {
-                    enemy.GetComponent<MeshRenderer>().materials[0] = materials[2];
-                    enemy.GetComponent<MeshRenderer>().materials[1] = materials[3];
-                }
 
                 enemy.transform.SetParent(gameObject.transform);
             }
@@ -136,6 +124,17 @@ public class EnemyManager : MonoBehaviour
 
     public void DestroyEnemyInSameLine(GameObject enemy)
     {
+        //GameObject[] Lightning = GameObject.FindGameObjectsWithTag("Lightning");
+
+        //foreach (GameObject e in Lightning)
+        //{
+        //    if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
+        //    {
+        //        e.SetActive(true);
+        //    }
+        //}
+
+        StartCoroutine(ElectricDelay(enemy));
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject e in enemies)
         {
@@ -143,12 +142,13 @@ public class EnemyManager : MonoBehaviour
             {
                 JuicyManager.Instance.DestructionSystem(e);
                 JuicyManager.Instance.PopUpScoreSystem(e, "13");
-                
+
                 SoundManager.Instance.PlaySound("Destruction alien");
-                
+
                 Destroy(e);
             }
         }
+
     }
 
     public void DestroyEnemyInSameColumn(GameObject enemy)
@@ -174,5 +174,12 @@ public class EnemyManager : MonoBehaviour
     {
         yield return new WaitForSeconds(fireRate);
         _canShot = true;
+    }
+
+
+    private IEnumerator ElectricDelay(GameObject enemy)
+    {
+        yield return new WaitForSeconds(electricTime);
+
     }
 }

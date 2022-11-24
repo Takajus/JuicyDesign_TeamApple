@@ -43,14 +43,16 @@ public class GameManager : MonoBehaviour
 
     public void SetRageBFG()
     {
-        if (_bfgRage >= 200)
-        {
-            PlayerController.Instance.SetCanUseBFG();
-        }
-        else
-        {
-            // _bfgRage += 
-        }
+        PlayerController.Instance.SetCanUseBFG();
+
+        //if (_bfgRage >= 200)
+        //{
+
+        //}
+        //else
+        //{
+        //    // _bfgRage += 
+        //}
     }
     
     private void EndGame()

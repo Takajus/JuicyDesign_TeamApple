@@ -83,16 +83,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            if (_canUseBfg)
-            {
-                Shoting(_bullet, "BFGAvailable");
-                _canUseBfg = false;
-            }
-            else
-            {
-                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
-                SoundManager.Instance.PlaySound("BFGUnavailable");
-            }
+            Shoting(_bfg, "BFGAvailable");
+            //if (_canUseBfg)
+            //{
+            //    Shoting(_bfg, "BFGAvailable");
+            //    _canUseBfg = false;
+            //}
+            //else
+            //{
+            //    JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+            //    SoundManager.Instance.PlaySound("BFGUnavailable");
+            //}
         }
 
         // StartCoroutine(ShotTimer());
