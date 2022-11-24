@@ -250,11 +250,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 5
   _speed: 2
-  _fireRate: 0.5
+  _boostSpeed: 0
   _weaponPosition: {fileID: 3793137409134522039}
   _bullet: {fileID: 7718702203645884901, guid: f5a5adac9c2167d44b968cca50e7373a, type: 3}
-  _weapons:
-  - {fileID: 3793137409134522039}
+  _bfg: {fileID: 0}
+  _soundBullet: 
+  _bfgSound: 
 --- !u!1 &3793137409134522039
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3793137408045153119}
     m_Modifications:
+    - target: {fileID: 1074115810785612101, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5767222274879049645, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
       propertyPath: m_Name
       value: XR Origin

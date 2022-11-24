@@ -44,6 +44,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3157e6db1d364a4fa8e81ebcc8a078e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpScorePrefab: {fileID: 9041400627741904411, guid: 142599f1fed401b44aee59879f96102e, type: 3}
+  popUpScorePrefab: {fileID: 7910345167802716149, guid: 527a181095cf73942a4efcfba9a94044, type: 3}
   destructionPrefeb: {fileID: 6198115573862609180, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
   player: {fileID: 0}
+  trigger:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 4bc09aa3-e72c-47b6-90ea-c55a56706740
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  movement:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Movement
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 672d216c-d622-477d-be90-4a660336b1d8
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 282076200879899528, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  test:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Test
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 98c820f3-2965-4423-9093-b705d4447346
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  trigger2:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Trigger 2
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: d4d8a217-c590-4c34-b45b-a375de13eb8e
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  VrVsInput: 0
+  temp: 0
+  temp1: 0

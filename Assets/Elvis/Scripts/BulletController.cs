@@ -63,10 +63,13 @@ public class BulletController : MonoBehaviour
     
     private void BulletHitEnemy(GameObject enemy)
     {
-        int point = UnityEngine.Random.Range(10, 20);
+        int rageToAdd = UnityEngine.Random.Range(10, 20);
+        GameManager.Instance.IncreaseScore(rageToAdd);
+
+        GameManager.Instance.SetRageBFG(rageToAdd);
         
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
-        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{point}");
+        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{rageToAdd}");
                 
         SoundManager.Instance.PlaySound("AlienDeath");
         

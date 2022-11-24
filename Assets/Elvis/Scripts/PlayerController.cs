@@ -18,9 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed;
     [SerializeField]
-    private float boostSpeed;
-    [SerializeField]
-    private float fireRate;
+    private float _boostSpeed;
 
     private float _speedTemp;
     
@@ -28,24 +26,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject weaponPosition;
     [SerializeField]
-    private GameObject bullet;
-
+    private GameObject _bullet;
     [SerializeField] 
     private GameObject bfg;
 
-    private GameObject _weapon;
 
     [Header("Sound")]
     [SerializeField] 
     private string soundBullet;
     [SerializeField] 
-    private string bfgSound;
-    
-    [SerializeField]
-    private List<GameObject> weapons;
+    private string _bfgSound;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
+    
     private bool _useBoost = false;
     private int _currentDir = 0;
 
@@ -58,6 +52,11 @@ public class PlayerController : MonoBehaviour
             _instance = this;
         else
             Destroy(gameObject);
+    }
+    
+    private void Start()
+    {
+        _speedTemp = _speed;
     }
 
     private void Start()
@@ -79,7 +78,9 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        //float horizontal = Input.GetAxis("Horizontal");
+        //Vector3 direction = new Vector3(horizontal, 0, 0);
+        float horizontal = JuicyManager.Instance.vectorTest();
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
         if (horizontal > 0 && _currentDir != 1)
@@ -97,14 +98,13 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(LerpBoost());
         }
         
-        transform.position += direction * (speed * Time.deltaTime);
-        // transform.Translate(direction * (speed * Time.deltaTime));
+        transform.position += direction * (_speed * Time.deltaTime);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
-        if (Input.GetButtonDown("Fire1"))
+        /*if (Input.GetButtonDown("Fire1"))
         {
             Shoting(_bullet, "Shot");
         }
@@ -112,9 +112,29 @@ public class PlayerController : MonoBehaviour
         {
             if (_canUseBfg)
             {
-                Shoting(_bullet, "BFGAvailable");
+                Shoting(_bullet, "BFGShot");
+                GameManager.Instance.ResetBFG();
                 _canUseBfg = false;
                 GameManager.Instance.ResetRageBFG();
+            }
+            else
+            {
+                JuicyManager.Instance.PopUpScoreSystem(gameObject, "Can not use BFG");
+                SoundManager.Instance.PlaySound("BFGUnavailable");
+            }
+        }*/
+        
+        if (JuicyManager.Instance.Fire1())
+        {
+            Shoting(_bullet, "Shot");
+        }
+        else if (JuicyManager.Instance.Fire2())
+        {
+            if (_canUseBfg)
+            {
+                Shoting(_bullet, "BFGShot");
+                GameManager.Instance.ResetBFG();
+                _canUseBfg = false;
             }
             else
             {
@@ -143,17 +163,6 @@ public class PlayerController : MonoBehaviour
     public void SetCanUseBfg(bool value = true)
     {
         _canUseBfg = value;
-    }
-    
-    private void SwapWeapon()
-    {
-        _weapon.gameObject.SetActive(false);
-        
-        int currIdx = weapons.IndexOf(_weapon);
-        int nextIdx = (currIdx + 1) % weapons.Count;
-        
-        _weapon = weapons[nextIdx];
-        _weapon.gameObject.SetActive(true);
     }
     
     public int GetPlayerXPos()
@@ -186,6 +195,7 @@ public class PlayerController : MonoBehaviour
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
+        //gameObject
         GameManager.Instance.SetEndGame();
     }
 
@@ -194,23 +204,17 @@ public class PlayerController : MonoBehaviour
         _useBoost = true;
         
         float t = 0;
-        float startSpeed = boostSpeed;
-        float endSpeed = speed;
+        float startSpeed = _boostSpeed;
+        float endSpeed = _speed;
         
         while (t < 1)
         {
             t += Time.deltaTime;
-            speed = Mathf.Lerp(startSpeed, endSpeed, t);
+            _speed = Mathf.Lerp(startSpeed, endSpeed, t);
             yield return null;
         }
 
-        speed = _speedTemp;
+        _speed = _speedTemp;
         _useBoost = false;
-    }
-
-    private IEnumerator ShotTimer()
-    {
-        yield return new WaitForSeconds(fireRate);
-        _canShot = true;
     }
 }
