@@ -57,6 +57,7 @@ public class BulletController : MonoBehaviour
     private void BulletHitPlayer(GameObject player)
     {
         PlayerController.Instance.GetDamage(1);
+        SoundManager.Instance.PlaySound("PlayerDeath");
         Destroy(gameObject);
     }
     
@@ -65,7 +66,7 @@ public class BulletController : MonoBehaviour
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
         JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(10, 20)}");
                 
-        SoundManager.Instance.PlaySound("Destruction alien");
+        SoundManager.Instance.PlaySound("AlienDeath");
         
         Destroy(enemy);
         DestroyBullet();
@@ -106,7 +107,10 @@ public class BulletController : MonoBehaviour
             if (other.CompareTag("Player")) 
                 BulletHitPlayer(other.gameObject);
             if (other.CompareTag("Bullet"))
+            {
+                SoundManager.Instance.PlaySound("ProjectileDestroyed");
                 Destroy(gameObject);
+            }
         }
     }
 
