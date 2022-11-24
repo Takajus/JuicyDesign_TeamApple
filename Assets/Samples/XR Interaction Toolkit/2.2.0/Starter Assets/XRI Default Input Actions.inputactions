@@ -1499,7 +1499,7 @@
             "id": "5851a68a-aca2-4533-b8f7-0ef452db207a",
             "actions": [
                 {
-                    "name": "Fire",
+                    "name": "Fire1",
                     "type": "Button",
                     "id": "6a89481f-21e9-4f92-86c2-a30cec55ad13",
                     "expectedControlType": "Button",
@@ -1508,10 +1508,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Movement",
+                    "name": "Fire2",
+                    "type": "Button",
+                    "id": "41454641-fd69-420d-b3ac-89b200e1d5af",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Movement2",
                     "type": "Value",
                     "id": "21d12721-52bb-4110-801d-64b34031040e",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -1534,18 +1543,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5dc7aff5-8de1-45f6-a5bf-4b078405af3d",
-                    "path": "<XRController>{RightHand}/secondary2DAxisClick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Noncontinuous Move",
-                    "action": "Movement",
+                    "action": "Fire1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1561,59 +1559,81 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "zqsd",
-                    "id": "70f08f1e-24f5-4c7a-8848-28a472da36b3",
+                    "name": "",
+                    "id": "3be9d6b8-a49e-4376-a2f5-46cafcaf806e",
+                    "path": "<XRController>{RightHand}/primary2DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "04563802-95fc-4df1-b490-1f035ac1e0ab",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Movement2",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "up",
-                    "id": "8750c3b7-5336-44e9-bb22-12dd26586365",
+                    "id": "ddcdb67e-5473-468f-a9fe-e5490d92e08e",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Movement2",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "2b797621-f180-4cb2-92f6-bec644e11217",
+                    "id": "07bea05d-665a-4cbe-9aa7-297b007b409f",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Movement2",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "81b7489b-8065-4b32-959a-91a24ca0b5e5",
+                    "id": "deb42415-d6de-401f-96f5-c4dd89b7a502",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Movement2",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "801f0dc9-01b7-427a-b8bc-c7abfbea0c8d",
+                    "id": "0f77cb07-5d06-46d2-a442-3163c90574a9",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Movement2",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5d8ee723-ed6f-4a0a-bcbc-436b0693f285",
+                    "path": "<XRController>/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

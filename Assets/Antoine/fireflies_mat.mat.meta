@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Antoine/fireflies.mat.meta
+guid: 548703201aaa71249bea6ff640c4b2c9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+=======
+guid: 8f05276190cf498a8153f6cbe761d4e6
+timeCreated: 1480316860
+licenseType: Pro
+TextScriptImporter:
+>>>>>>> main:Assets/TextMesh Pro/Sprites/EmojiOne.json.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

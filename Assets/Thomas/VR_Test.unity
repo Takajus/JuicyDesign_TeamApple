@@ -187,6 +187,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 282076200879899528, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  test:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Test
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: da9d9b53-5414-4ad5-a90b-b6d52a9e6ea5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7476384016825260434, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!4 &830378148
 Transform:
   m_ObjectHideFlags: 0
