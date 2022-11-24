@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         if (_bfgRage >= 200)
         {
             PlayerController.Instance.SetCanUseBFG();
+            SoundManager.Instance.PlaySound("BFGAvailable");
         }
         else
         {
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
         // Time.timeScale = 0;
+        SoundManager.Instance.PlaySound("Gameover");
         SceneManager.LoadScene("SampleScene");
     }
 

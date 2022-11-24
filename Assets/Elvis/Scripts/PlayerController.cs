@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_canUseBfg)
             {
-                Shoting(_bullet, "BFGAvailable");
+                Shoting(_bullet, "BFGShot");
                 _canUseBfg = false;
             }
             else
