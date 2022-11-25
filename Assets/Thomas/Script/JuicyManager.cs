@@ -74,7 +74,7 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
-
+            CameraShake();
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
@@ -129,19 +129,24 @@ public class JuicyManager : MonoBehaviour
         {
             tempPrefab = Instantiate(destructionPrefab, player.transform.position, player.transform.rotation);
         }
-        Destroy(tempPrefab, 1f);
+        Destroy(tempPrefab, 0.3f);
     }
 
     public void Propulsion(float position)
     {
         tempPrefab = Instantiate(propulsionPrefab, new Vector3(player.transform.position.x + position, player.transform.position.y, player.transform.position.z), new Quaternion(propulsionPrefab.transform.rotation.x, propulsionPrefab.transform.rotation.y, propulsionPrefab.transform.rotation.z, propulsionPrefab.transform.rotation.w), player.transform);
-        Destroy(tempPrefab, 1f);
+        Destroy(tempPrefab, 0.3f);
     }
 
     public void StartShooting()
     {
         tempPrefab = Instantiate(sprayPrefab, new Vector3(weapon.transform.position.x, weapon.transform.position.y, weapon.transform.position.z + 2), new Quaternion(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z, player.transform.rotation.w), player.transform);
-        Destroy(tempPrefab, 1f); 
+        Destroy(tempPrefab, 0.3f); 
+    }
+
+    public void CameraShake()
+    {
+        player.GetComponent<CameraShake>().enabled = true;
     }
 
     #region Input
