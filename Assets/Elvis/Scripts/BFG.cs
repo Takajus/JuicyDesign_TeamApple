@@ -7,58 +7,31 @@ using Random = System.Random;
 
 public class BFG : MonoBehaviour
 {
-    private VisualEffect _visualEffect;
-
     [SerializeField]
-    private float speed = 10f;
-    [SerializeField]
-    private float lifeTime = 2f;
+    private float speed = 0.5f;
 
-    private int _direction = 1;
-
-    protected void Start() 
+    private void Update()
     {
-        Destroy(gameObject, lifeTime);
-
-        _visualEffect = GetComponent<VisualEffect>();
-
-        if(_visualEffect)
-            _visualEffect.SetFloat("lifetime", lifeTime);
-    }
-
-    // Update is called once per frame
-    protected void Update()
-    {
-        transform.position += Vector3.forward * (_direction * (speed * Time.deltaTime));
-    }
-
-    private void BulletHitEnemy(GameObject enemy)
-    {
-        EnemyManager.Instance.DestroyEnemyInSameLine(enemy);
-        JuicyManager.Instance.DestructionSystem(enemy.gameObject);
-        JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{UnityEngine.Random.Range(40, 50)}");
-
-        SoundManager.Instance.PlaySound("BFGHit");
-
-        DestroyBullet();
-    }
-
-    private void DestroyBullet()
-    {
-        PlayerController.Instance.SetCanShot();
-        Destroy(gameObject);
+        transform.position += Vector3.forward * (speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            BulletHitEnemy(other.gameObject);
+            EnemyManager.Instance.DestroyEnemyInSameLine(other.gameObject);
+            PlayerController.Instance.SetCanShot();
+            Destroy(gameObject);
         }
 
         if (other.CompareTag("Shield"))
         {
-            DestroyBullet();
+            other.GetComponent<ShieldController>().DestroyShield();
+        }
+
+        if (other.CompareTag("Bullet"))
+        {
+            Destroy(other.gameObject);
         }
     }
 
@@ -66,7 +39,8 @@ public class BFG : MonoBehaviour
     {
         if (other.CompareTag("Zone"))
         {
-            DestroyBullet();
+            PlayerController.Instance.SetCanShot();
+            Destroy(gameObject);
         }
     }
 }

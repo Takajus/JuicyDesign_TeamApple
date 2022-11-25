@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c351e4d3455ca6f4fb85349e58768ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bfgRage: 0
-  maxRage: 0
+  gameoverPanel: {fileID: 0}
+  scoreValue: {fileID: 0}
+  maxRage: 25
 --- !u!1 &7376455660377135256
 GameObject:
   m_ObjectHideFlags: 0

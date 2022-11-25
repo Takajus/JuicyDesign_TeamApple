@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyManager : MonoBehaviour
@@ -11,6 +15,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]
     private GameObject[] enemyPrefab;
+    public GameObject ArchInScene;
 
     [SerializeField]
     private int line;
@@ -33,14 +38,24 @@ public class EnemyManager : MonoBehaviour
     
     [SerializeField]
     private float fireRate;
+    [SerializeField]
+    private float speed;
 
-    private float electricTime = 2;
-    
+    private float electricTime = 1.5f;
+
+    private bool destroyEnemyRow = false;
+
     private bool _canShot = true;
-    
+
     [SerializeField]
     private Material[] materials;
+    public List<GameObject> LightningList;
+    public List<GameObject> ArchList;
+    private GameObject ConcernedEnemy;
 
+
+    private int _direction = 1;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -58,6 +73,20 @@ public class EnemyManager : MonoBehaviour
         _tr = GetComponent<Transform>();
         electricTime = 2;
         SpawnEnemies();
+        SpawnArch();
+
+        GameObject[] TempLightning = GameObject.FindGameObjectsWithTag("Lightning");
+
+        for (int i = 0; i < TempLightning.Length; i++)
+        {
+            LightningList.Add(TempLightning[i]);
+            LightningList[i].SetActive(false);
+        }
+
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            ArchList[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -70,8 +99,27 @@ public class EnemyManager : MonoBehaviour
         
         if (_canMove)
             StartCoroutine(MoveEnemyToPlayerCoroutine());
+
+        if(destroyEnemyRow)
+            StartCoroutine(ElectricDelay(ConcernedEnemy));
+
+        
+
+        for (int i = 0; i < LightningList.Count; i++)
+        {
+            if (!LightningList[i])
+                LightningList.RemoveAt(i);
+        }
+
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            if (!ArchList[i])
+                ArchList.RemoveAt(i);
+        }
+        
+        MoveHorizontal();
     }
-    
+
     private void SpawnEnemies()
     {
         Vector3 center = _tr.position - 
@@ -79,23 +127,62 @@ public class EnemyManager : MonoBehaviour
                              line * 0.5f * distance, distanceToPlayer, 
                              column * 0.5f * distance);
 
-        for (int i = 0; i < line; ++i)
+        for (int i = 0; i <= line; ++i)
         {
             for (int j = 0; j < column; ++j)
             {
-                int index = UnityEngine.Random.Range(0,4);
+                int index = UnityEngine.Random.Range(0,5);
                 GameObject enemy = Instantiate(enemyPrefab[index], 
                     new Vector3(center.x + i * distance, 1, center.y + j * distance), 
                     Quaternion.Euler(0, 0, 0));
-
                 enemy.transform.SetParent(gameObject.transform);
             }
         }
     }
 
+    private void SpawnArch() 
+    {
+
+        Vector3 center = _tr.position -
+                 new Vector3(
+                     line * 0.5f * distance, distanceToPlayer,
+                     column * 0.5f * distance);
+
+        for (int i = 0; i < column; i++) 
+        {
+            GameObject arch = Instantiate(ArchInScene, new Vector3(0, 0, 0),
+                Quaternion.Euler(0, 0, 0));
+            ArchList.Add(arch);
+            arch.GetComponent<LockPosition>().pos1.position = new Vector3(line * distance/2, 1, center.y + i * distance);
+            arch.GetComponent<LockPosition>().pos2.position = new Vector3(line * -distance/2, 1, center.y + i * distance);
+        }
+    }
+
+    private void MoveHorizontal()
+    {
+        _tr.position += Vector3.right * _direction * speed * Time.deltaTime;
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            ArchList[i].GetComponent<LockPosition>().pos1.position += Vector3.right * _direction * speed * Time.deltaTime;
+            ArchList[i].GetComponent<LockPosition>().pos2.position += Vector3.right * _direction * speed * Time.deltaTime;
+        }
+    }
+
+    public void SetDirection(int dir)
+    {
+        _direction = dir;
+    }
+
     private void MoveEnemyToPlayer()
     {
         _tr.position += Vector3.back * distanceToMove;
+        _tr.position += Vector3.back * distanceToMove;
+
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            ArchList[i].GetComponent<LockPosition>().pos1.position += Vector3.back * distanceToMove * 2;
+            ArchList[i].GetComponent<LockPosition>().pos2.position += Vector3.back * distanceToMove * 2;
+        }
         _canMove = false;
     }
     
@@ -124,47 +211,27 @@ public class EnemyManager : MonoBehaviour
 
     public void DestroyEnemyInSameLine(GameObject enemy)
     {
-        //GameObject[] Lightning = GameObject.FindGameObjectsWithTag("Lightning");
-        //GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //foreach (GameObject e in enemies)
-        //{
-        //    if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
-        //    {
-        //        GameObject[] Lightning = GameObject.FindGameObjectsWithTag("Lightning");
-        //        foreach (GameObject l in Lightning)
-        //        {
-        //            l.SetActive(true);
-        //        }
-        //        JuicyManager.Instance.DestructionSystem(e);
-        //        JuicyManager.Instance.PopUpScoreSystem(e, "13");
-
-        //        SoundManager.Instance.PlaySound("Destruction alien");
-
-        //        Destroy(e);
-        //    }
-        //}
-
-
-
-
-
-
-        StartCoroutine(ElectricDelay(enemy));
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject e in enemies)
+        for (int i = 0; i < LightningList.Count; i++)
         {
-            if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
+            if (Math.Abs(LightningList[i].transform.position.z - enemy.transform.position.z) < 0.2f)
             {
-                JuicyManager.Instance.DestructionSystem(e);
-                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                LightningList[i].SetActive(true);
+            }
 
-                SoundManager.Instance.PlaySound("Destruction alien");
+        }
 
-                Destroy(e);
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            if (Math.Abs(ArchList[i].GetComponent<LockPosition>().pos1.position.z - enemy.transform.position.z) < 0.2f)
+            {
+                ArchList[i].SetActive(true);
+                ArchList[i].SetActive(true);
             }
         }
 
+        ConcernedEnemy = enemy;
+        destroyEnemyRow = true;
     }
 
     public void DestroyEnemyInSameColumn(GameObject enemy)
@@ -196,6 +263,27 @@ public class EnemyManager : MonoBehaviour
     private IEnumerator ElectricDelay(GameObject enemy)
     {
         yield return new WaitForSeconds(electricTime);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject e in enemies)
+        {
+            if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
+            {
+                JuicyManager.Instance.DestructionSystem(e);
+                JuicyManager.Instance.PopUpScoreSystem(e, "13");
 
+                SoundManager.Instance.PlaySound("Destruction alien");
+
+                Destroy(e);
+            }
+
+            for (int i = 0; i < ArchList.Count; i++)
+            {
+                if (Math.Abs(ArchList[i].GetComponent<LockPosition>().pos1.position.z - enemy.transform.position.z) < 0.2f)
+                {
+                    Destroy(ArchList[i]);
+                }
+            }
+        }
+        destroyEnemyRow = false;
     }
 }
