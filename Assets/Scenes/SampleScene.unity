@@ -1229,8 +1229,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4957921246511749245, guid: 0411e82efbdba354982f4bcaaf1dd360, type: 3}
     - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
+      propertyPath: movementDelay
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
       propertyPath: distanceToPlayer
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7376455660377135258, guid: 05c3f54c8ca56e84280072c90c8e81a1, type: 3}
       propertyPath: materials.Array.size
