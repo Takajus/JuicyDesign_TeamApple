@@ -161,6 +161,11 @@ public class EnemyManager : MonoBehaviour
     private void MoveHorizontal()
     {
         _tr.position += Vector3.right * _direction * speed * Time.deltaTime;
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            ArchList[i].GetComponent<LockPosition>().pos1.position += Vector3.right * _direction * speed * Time.deltaTime;
+            ArchList[i].GetComponent<LockPosition>().pos2.position += Vector3.right * _direction * speed * Time.deltaTime;
+        }
     }
 
     public void SetDirection(int dir)
