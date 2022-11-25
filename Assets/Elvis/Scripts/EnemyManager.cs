@@ -71,7 +71,7 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         _tr = GetComponent<Transform>();
-        _electricTime = 2;
+        electricTime = 2;
         SpawnEnemies();
         SpawnArch();
 
