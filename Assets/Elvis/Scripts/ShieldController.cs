@@ -14,6 +14,7 @@ public class ShieldController : MonoBehaviour
     {
         maxHit--;
 
+
         if (maxHit == 0)
         {
             DestroyShield();
