@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreValue;
     
     private int _bfgRage;
+    [SerializeField]
+    public Slider bfgSlider;
 
     [SerializeField]
     private int maxRage;
@@ -34,6 +37,10 @@ public class GameManager : MonoBehaviour
         }
         
         _soundManager = FindObjectOfType<SoundManager>();_soundManager = FindObjectOfType<SoundManager>();
+
+
+        bfgSlider.minValue = 0;
+        bfgSlider.maxValue = maxRage;
     }
 
     private void Start()
@@ -46,6 +53,11 @@ public class GameManager : MonoBehaviour
         
         else if(scene.name == "SampleScene")
             _soundManager.PlaySound("GameMusic");
+    }
+
+    private void Update()
+    {
+        bfgSlider.value = _bfgRage;
     }
 
     public void SetRageBFG(int rage)
