@@ -15,7 +15,8 @@ public class JuicyManager : MonoBehaviour
         popUpScorePrefab,
         destructionPrefab,
         propulsionPrefab, 
-        sprayPrefab;
+        sprayPrefab,
+        shieldPrefab;
 
     [Header("Player")]
     [SerializeField]
@@ -78,7 +79,7 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
-            // sound
+            ShieldImpact();
         }
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
@@ -147,6 +148,19 @@ public class JuicyManager : MonoBehaviour
     public void CameraShake()
     {
         player.GetComponent<CameraShake>().enabled = true;
+    }
+
+    public void ShieldImpact(GameObject obj = null)
+    {
+        if (obj)
+        {
+            tempPrefab = Instantiate(shieldPrefab, obj.transform.position, obj.transform.rotation);
+        }
+        else
+        {
+            tempPrefab = Instantiate(shieldPrefab, player.transform.position, player.transform.rotation);
+        }
+        Destroy(tempPrefab, 0.3f);
     }
 
     #region Input
