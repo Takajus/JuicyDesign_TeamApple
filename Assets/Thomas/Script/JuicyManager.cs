@@ -78,15 +78,15 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
-
+            // sound
         }
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
-
+            PlayerController.Instance.SetIntensity(0.2f);
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
-
+            // BFG
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
