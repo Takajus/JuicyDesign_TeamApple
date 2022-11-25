@@ -10,18 +10,22 @@ public class JuicyManager : MonoBehaviour
 
     public static JuicyManager Instance { get { return instance; } }
 
+    [Header("FX Prefab")]
     public GameObject
         popUpScorePrefab,
         destructionPrefab,
-        propulsionPrefab;
+        propulsionPrefab, 
+        sprayPrefab;
 
+    [Header("Player")]
     [SerializeField]
-    private GameObject player;
+    private GameObject player, weapon;
 
     private GameObject tempPrefab;
 
     private string playerTag;
 
+    [Header("VR + Keyboard Input")]
     public InputActionProperty trigger, movement, test, trigger2;
     public bool VrVsInput;
 
@@ -62,15 +66,15 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad3))
         {
-            
+            Propulsion(-1f);
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {
-            Propulsion(-1f, 90f);
+            StartShooting();
         }
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
-            Propulsion(1f, -90f);
+
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
@@ -112,6 +116,7 @@ public class JuicyManager : MonoBehaviour
         }
         //tempPrefab.GetChildComponent<TextMesh>().text = score;
         tempPrefab.GetComponentInChildren<TextMesh>().text = score;
+        Destroy(tempPrefab, 1f);
     }
 
     public void DestructionSystem(GameObject obj = null)
@@ -124,11 +129,19 @@ public class JuicyManager : MonoBehaviour
         {
             tempPrefab = Instantiate(destructionPrefab, player.transform.position, player.transform.rotation);
         }
+        Destroy(tempPrefab, 1f);
     }
 
-    public void Propulsion(float position, float rotation)
+    public void Propulsion(float position)
     {
-        tempPrefab = Instantiate(propulsionPrefab, new Vector3(player.transform.position.x + position, player.transform.position.y, player.transform.position.z), new Quaternion(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z + rotation, player.transform.rotation.w), player.transform);
+        tempPrefab = Instantiate(propulsionPrefab, new Vector3(player.transform.position.x + position, player.transform.position.y, player.transform.position.z), new Quaternion(propulsionPrefab.transform.rotation.x, propulsionPrefab.transform.rotation.y, propulsionPrefab.transform.rotation.z, propulsionPrefab.transform.rotation.w), player.transform);
+        Destroy(tempPrefab, 1f);
+    }
+
+    public void StartShooting()
+    {
+        tempPrefab = Instantiate(sprayPrefab, new Vector3(weapon.transform.position.x, weapon.transform.position.y, weapon.transform.position.z + 2), new Quaternion(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z, player.transform.rotation.w), player.transform);
+        Destroy(tempPrefab, 1f); 
     }
 
     #region Input

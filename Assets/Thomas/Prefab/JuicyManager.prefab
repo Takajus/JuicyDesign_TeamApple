@@ -47,7 +47,9 @@ MonoBehaviour:
   popUpScorePrefab: {fileID: 7910345167802716149, guid: 527a181095cf73942a4efcfba9a94044, type: 3}
   destructionPrefab: {fileID: 6198115573862609180, guid: 44fe4739c50f47140818b5fff0dc8e76, type: 3}
   propulsionPrefab: {fileID: 1831518494700654570, guid: 3a63d9b89706a664d8739c6d4ec22744, type: 3}
+  sprayPrefab: {fileID: 6763876804333871231, guid: b25bafeda2e9ab1489637502f5468974, type: 3}
   player: {fileID: 0}
+  weapon: {fileID: 0}
   trigger:
     m_UseReference: 1
     m_Action:
