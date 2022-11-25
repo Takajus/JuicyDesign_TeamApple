@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,39 +15,40 @@ public class PlayerController : MonoBehaviour
     
     [Header("Stats")]
     [SerializeField] 
-    private int _health;
+    private int health;
 
     [SerializeField]
-    private float _speed;
+    private float speed;
     [SerializeField]
-    private float _boostSpeed;
-
+    private float boostSpeed;
     private float _speedTemp;
     
     [Header("Weapon")]
     [SerializeField]
-    private GameObject _weaponPosition;
+    private GameObject weaponPosition;
     [SerializeField]
-    private GameObject _bullet;
+    private GameObject bullet;
     [SerializeField] 
-    private GameObject _bfg;
-
-
-    [Header("Sound")]
+    private GameObject bfg;
     [SerializeField] 
-    private string _soundBullet;
-    [SerializeField] 
-    private string _bfgSound;
+    private GameObject body;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
     
     private bool _useBoost = false;
     private int _currentDir = 0;
+    private int _indexHit = 0;
+    
+    private bool _canMoveLeft = true;
+    private bool _canMoveRight = true;
+    
+    [SerializeField]
+    private VolumeProfile _volumeProfile;
 
-    // [SerializeField]
-    // private AudioSource _audioSource;
-
+    [SerializeField]
+    private GameObject[] effectHit;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -55,8 +58,11 @@ public class PlayerController : MonoBehaviour
     }
     
     private void Start()
-    {
-        _speedTemp = _speed;
+    { 
+        _volumeProfile.TryGet(out Vignette vignette);
+        vignette.intensity.value = 0;
+        
+        _speedTemp = speed;
     }
 
     // Update is called once per frame
@@ -73,12 +79,14 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        float horizontal = JuicyManager.Instance.vectorTest();
         Vector3 direction = new Vector3(horizontal, 0, 0);
         
         if (horizontal > 0 && _currentDir != 1)
         {
             _currentDir = 1;
+            
+            JuicyManager.Instance.Propulsion(-1);
             
             if (!_useBoost)
                 StartCoroutine(LerpBoost());
@@ -87,24 +95,30 @@ public class PlayerController : MonoBehaviour
         {
             _currentDir = -1;
             
+            JuicyManager.Instance.Propulsion(1);
+            
             if (!_useBoost)
                 StartCoroutine(LerpBoost());
         }
         
-        transform.position += direction * (_speed * Time.deltaTime);
+        if (_canMoveLeft && horizontal <= 0 || _canMoveRight && horizontal >= 0)
+            transform.position += direction * (speed * Time.deltaTime);
     }
-    
+
+    // ReSharper disable Unity.PerformanceAnalysis
     private void Shot()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (JuicyManager.Instance.Fire1())
         {
-            Shoting(_bullet, "Shot");
+            Shoting(bullet, "Shot");
+            
+            JuicyManager.Instance.StartShooting();
         }
-        else if (Input.GetButtonDown("Fire2"))
+        else if (JuicyManager.Instance.Fire2())
         {
             if (_canUseBfg)
             {
-                Shoting(_bullet, "BFGShot");
+                Shoting(bfg, "BFGShot");
                 GameManager.Instance.ResetBFG();
                 _canUseBfg = false;
             }
@@ -114,14 +128,12 @@ public class PlayerController : MonoBehaviour
                 SoundManager.Instance.PlaySound("BFGUnavailable");
             }
         }
-
-        // StartCoroutine(ShotTimer());
     }
 
     private void Shoting(GameObject obj, string sound)
     {
         if (obj)
-            Instantiate(obj, _weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
+            Instantiate(obj, weaponPosition.transform.position, Quaternion.Euler(90, 0, 0));
         
         SoundManager.Instance.PlaySound(sound);
         _canShot = false;
@@ -132,7 +144,7 @@ public class PlayerController : MonoBehaviour
         _canShot = true;
     }
     
-    public void SetCanUseBFG(bool value = true)
+    public void SetCanUseBfg(bool value = true)
     {
         _canUseBfg = value;
     }
@@ -149,26 +161,57 @@ public class PlayerController : MonoBehaviour
 
     public int GetHealth()
     {
-        return _health;
+        return health;
     }
 
     public void GetDamage(int damage)
     {
-        _health -= damage;
+        GetComponent<CameraShake>().enabled = true;
+
+        health -= damage;
         
-        if (_health <= 0)
+        if (health <= 0)
         {
             KillPlayer();
         }
         else
+        {
+            SetIntensity(0.34f);
+            
+            HitEffect();
+            
             SoundManager.Instance.PlaySound("PlayerHit");
+        }
     }
 
     private void KillPlayer()
     {
-        SoundManager.Instance.PlaySound("PlayerDeath");
-        //gameObject
+        DeathEffect();
+        body.SetActive(false);
+        
         GameManager.Instance.SetEndGame();
+    }
+
+    private void DeathEffect()
+    {
+        JuicyManager.Instance.DestructionSystem(body);
+    }
+
+    public void HitEffect()
+    {
+        _indexHit++;
+
+        if (_indexHit < effectHit.Length)
+        {
+            GameObject hitEffect = Instantiate(effectHit[_indexHit], transform.position, Quaternion.identity);
+            hitEffect.transform.SetParent(gameObject.transform);
+        }
+    }
+    
+    public void SetIntensity(float intensity)
+    {
+        _volumeProfile.TryGet(out Vignette vignette);
+        vignette.intensity.value += intensity;
     }
 
     private IEnumerator LerpBoost()
@@ -176,17 +219,35 @@ public class PlayerController : MonoBehaviour
         _useBoost = true;
         
         float t = 0;
-        float startSpeed = _boostSpeed;
-        float endSpeed = _speed;
+        float startSpeed = boostSpeed;
+        float endSpeed = speed;
         
         while (t < 1)
         {
             t += Time.deltaTime;
-            _speed = Mathf.Lerp(startSpeed, endSpeed, t);
+            speed = Mathf.Lerp(startSpeed, endSpeed, t);
             yield return null;
         }
 
-        _speed = _speedTemp;
+        speed = _speedTemp;
         _useBoost = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Left"))
+            _canMoveLeft = false;
+        
+        if (other.CompareTag("Right"))
+            _canMoveRight = false;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Left"))
+            _canMoveLeft = true;
+        
+        if (other.CompareTag("Right"))
+            _canMoveRight = true;
     }
 }

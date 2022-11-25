@@ -66,5 +66,11 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Finish"))
             GameManager.Instance.SetEndGame();
+        
+        if (other.CompareTag("Left"))
+            EnemyManager.Instance.SetDirection(1);
+        
+        if (other.CompareTag("Right"))
+            EnemyManager.Instance.SetDirection(-1);
     }
 }

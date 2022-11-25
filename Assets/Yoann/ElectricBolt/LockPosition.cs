@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LockPosition : MonoBehaviour
 {
-    Transform transform;
+    private Transform transform;
+    public Transform pos1;
+    public Transform pos2;
 
 
     // Start is called before the first frame update

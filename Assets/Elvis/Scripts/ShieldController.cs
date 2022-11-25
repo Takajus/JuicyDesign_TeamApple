@@ -5,20 +5,29 @@ using UnityEngine;
 public class ShieldController : MonoBehaviour
 {
     [SerializeField]
-    private int _maxHit = 3;
+    private int maxHit = 3;
+    
+    [SerializeField]
+    private GameObject[] shieldZones;
     
     public void GetHit()
     {
-        _maxHit--;
+        maxHit--;
 
-        if (_maxHit == 0)
+        if (maxHit == 0)
         {
-            SoundManager.Instance.PlaySound("Destroy Shield");
-            Destroy(gameObject);
-            
+            DestroyShield();
+
             return;
         }
         
+        shieldZones[maxHit].SetActive(false);
         SoundManager.Instance.PlaySound("Hit Shield");
+    }
+
+    public void DestroyShield()
+    {
+        SoundManager.Instance.PlaySound("Destroy Shield");
+        Destroy(gameObject);
     }
 }

@@ -694,11 +694,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8312763002646617205}
   - component: {fileID: 1821329797}
-  - component: {fileID: 1821329798}
+  - component: {fileID: 1605201188190112409}
   - component: {fileID: 1821329796}
   m_Layer: 0
   m_Name: biboup_Bouclier_Prefab
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -737,7 +737,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1821329798
+--- !u!65 &1605201188190112409
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -748,8 +748,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 5, y: 11, z: 2}
+  m_Center: {x: -1.2, y: -5, z: 0}
 --- !u!114 &1821329796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +762,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4a51d9efdea454491f4ba57629a11b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHit: 3
+  maxHit: 3
+  shieldZones:
+  - {fileID: 8312763001587732132}
+  - {fileID: 8312763001882000572}
+  - {fileID: 8312763002619509558}
 --- !u!1001 &8312763001215495108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -860,6 +864,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser_Colonne_2
       objectReference: {fileID: 0}
+    - target: {fileID: 6587333681929631725, guid: 9349a03d4f4bb4c4c995390370e9415c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6587333681929631726, guid: 9349a03d4f4bb4c4c995390370e9415c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -945,6 +953,10 @@ PrefabInstance:
     - target: {fileID: 6587333681929631725, guid: 9349a03d4f4bb4c4c995390370e9415c, type: 3}
       propertyPath: m_Name
       value: Laser_Colonne_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587333681929631725, guid: 9349a03d4f4bb4c4c995390370e9415c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6587333681929631726, guid: 9349a03d4f4bb4c4c995390370e9415c, type: 3}
       propertyPath: m_RootOrder

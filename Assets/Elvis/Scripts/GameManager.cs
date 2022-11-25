@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -15,15 +16,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameoverPanel;
     public TextMeshProUGUI scoreValue;
-
-    [Range(0, 200)]
-    [SerializeField]
+    
     private int _bfgRage;
+    [SerializeField]
+    public Slider bfgSlider;
 
     [SerializeField]
     private int maxRage;
 
-    private int score;
+    private int _score;
     
     private void Awake()
     {
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
         
         _soundManager = FindObjectOfType<SoundManager>();_soundManager = FindObjectOfType<SoundManager>();
 
+
+        bfgSlider.minValue = 0;
+        bfgSlider.maxValue = maxRage;
     }
 
     private void Start()
@@ -46,15 +50,21 @@ public class GameManager : MonoBehaviour
         {
             _soundManager.PlaySound("MenuMusic");
         }
+        
         else if(scene.name == "SampleScene")
-        _soundManager.PlaySound("GameMusic");
+            _soundManager.PlaySound("GameMusic");
+    }
+
+    private void Update()
+    {
+        bfgSlider.value = _bfgRage;
     }
 
     public void SetRageBFG(int rage)
     {
         if (_bfgRage >= maxRage)
         {
-            PlayerController.Instance.SetCanUseBFG();
+            PlayerController.Instance.SetCanUseBfg();
             SoundManager.Instance.PlaySound("BFGAvailable");
         }
         else
@@ -74,15 +84,15 @@ public class GameManager : MonoBehaviour
         // Time.timeScale = 0;
         SoundManager.Instance.PlaySound("Gameover");
         gameoverPanel.SetActive(true);
-        scoreValue.text = score.ToString();
+        scoreValue.text = _score.ToString();
     }
 
     public void IncreaseScore(int value)
     {
-        score += value;
+        _score += value;
     }
 
-    public void replayButton()
+    public void ReplayButton()
     {
         SceneManager.LoadScene("SampleScene");
     }
