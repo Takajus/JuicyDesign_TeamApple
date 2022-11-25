@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,6 +40,9 @@ public class PlayerController : MonoBehaviour
     private bool _canMoveLeft = true;
     private bool _canMoveRight = true;
     
+    [SerializeField]
+    private VolumeProfile _volumeProfile;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -47,7 +52,9 @@ public class PlayerController : MonoBehaviour
     }
     
     private void Start()
-    {
+    { 
+        SetIntensity(0f);
+        
         _speedTemp = speed;
     }
 
@@ -161,13 +168,22 @@ public class PlayerController : MonoBehaviour
             KillPlayer();
         }
         else
+        {
+            SetIntensity(0.2f);
             SoundManager.Instance.PlaySound("PlayerHit");
+        }
     }
 
     private void KillPlayer()
     {
         SoundManager.Instance.PlaySound("PlayerDeath");
         GameManager.Instance.SetEndGame();
+    }
+
+    public void SetIntensity(float intensity)
+    {
+        _volumeProfile.TryGet(out Vignette vignette);
+        vignette.intensity.value += intensity;
     }
 
     private IEnumerator LerpBoost()

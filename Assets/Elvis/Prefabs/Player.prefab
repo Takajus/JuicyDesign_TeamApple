@@ -395,6 +395,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767222274354196148, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767222274354196148, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.75
+      objectReference: {fileID: 0}
     - target: {fileID: 5767222274879049645, guid: 19a767da29c477248a4fad04bce66d3e, type: 3}
       propertyPath: m_Name
       value: XR Origin
