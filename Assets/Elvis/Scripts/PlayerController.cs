@@ -30,18 +30,24 @@ public class PlayerController : MonoBehaviour
     private GameObject bullet;
     [SerializeField] 
     private GameObject bfg;
+    [SerializeField] 
+    private GameObject body;
 
     private bool _canShot = true;
     private bool _canUseBfg = false;
     
     private bool _useBoost = false;
     private int _currentDir = 0;
+    private int _indexHit = 0;
     
     private bool _canMoveLeft = true;
     private bool _canMoveRight = true;
     
     [SerializeField]
     private VolumeProfile _volumeProfile;
+
+    [SerializeField]
+    private GameObject[] effectHit;
     
     private void Awake()
     {
@@ -53,7 +59,8 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     { 
-        SetIntensity(0f);
+        _volumeProfile.TryGet(out Vignette vignette);
+        vignette.intensity.value = 0;
         
         _speedTemp = speed;
     }
@@ -160,7 +167,7 @@ public class PlayerController : MonoBehaviour
     public void GetDamage(int damage)
     {
         GetComponent<CameraShake>().enabled = true;
-        
+
         health -= damage;
         
         if (health <= 0)
@@ -169,17 +176,38 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            SetIntensity(0.2f);
+            SetIntensity(0.34f);
+            
+            HitEffect();
+            
             SoundManager.Instance.PlaySound("PlayerHit");
         }
     }
 
     private void KillPlayer()
     {
-        SoundManager.Instance.PlaySound("PlayerDeath");
+        DeathEffect();
+        body.SetActive(false);
+        
         GameManager.Instance.SetEndGame();
     }
 
+    private void DeathEffect()
+    {
+        JuicyManager.Instance.DestructionSystem(body);
+    }
+
+    public void HitEffect()
+    {
+        _indexHit++;
+
+        if (_indexHit < effectHit.Length)
+        {
+            GameObject hitEffect = Instantiate(effectHit[_indexHit], transform.position, Quaternion.identity);
+            hitEffect.transform.SetParent(gameObject.transform);
+        }
+    }
+    
     public void SetIntensity(float intensity)
     {
         _volumeProfile.TryGet(out Vignette vignette);

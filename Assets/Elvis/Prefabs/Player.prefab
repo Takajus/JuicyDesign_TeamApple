@@ -270,6 +270,11 @@ MonoBehaviour:
   weaponPosition: {fileID: 3793137409134522039}
   bullet: {fileID: 7718702203645884901, guid: f5a5adac9c2167d44b968cca50e7373a, type: 3}
   bfg: {fileID: 1291947592429150829, guid: 6a13ed065b151c642acaf0655d384365, type: 3}
+  body: {fileID: 5567683332548453337}
+  _volumeProfile: {fileID: 11400000, guid: 48a000d3bbb886f43a6cdf61579ad1e2, type: 2}
+  effectHit:
+  - {fileID: 3045823908034873439, guid: ed60d7bd314d9294698487021c12b154, type: 3}
+  - {fileID: 4208316051716771704, guid: d5c3a6cf7ad9b0c498ea100e38e2ad4f, type: 3}
 --- !u!1 &3793137409134522039
 GameObject:
   m_ObjectHideFlags: 0
