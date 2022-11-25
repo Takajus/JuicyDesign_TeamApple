@@ -214,6 +214,14 @@ public class JuicyManager : MonoBehaviour
 
         return movementF;
     }
+
+    public void RestartGame()
+    {
+        if (test.action.WasPressedThisFrame())
+        {
+            GameManager.Instance.ReplayButton();
+        }
+    }
     #endregion
 
 }

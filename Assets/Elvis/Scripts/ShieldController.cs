@@ -23,12 +23,12 @@ public class ShieldController : MonoBehaviour
         }
         
         shieldZones[maxHit].SetActive(false);
-        SoundManager.Instance.PlaySound("Hit Shield");
+        SoundManager.Instance.PlaySound("HitShield");
     }
 
     public void DestroyShield()
     {
-        SoundManager.Instance.PlaySound("Destroy Shield");
+        SoundManager.Instance.PlaySound("DestroyShield");
         Destroy(gameObject);
     }
 }

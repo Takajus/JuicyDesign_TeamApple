@@ -244,7 +244,7 @@ public class EnemyManager : MonoBehaviour
                 JuicyManager.Instance.DestructionSystem(e);
                 JuicyManager.Instance.PopUpScoreSystem(e, "13");
                 
-                SoundManager.Instance.PlaySound("Destruction alien");
+                SoundManager.Instance.PlaySound("DestructionAlien");
                 
                 // delay for destroy
 
@@ -271,7 +271,7 @@ public class EnemyManager : MonoBehaviour
                 JuicyManager.Instance.DestructionSystem(e);
                 JuicyManager.Instance.PopUpScoreSystem(e, "13");
 
-                SoundManager.Instance.PlaySound("Destruction alien");
+                SoundManager.Instance.PlaySound("DestructionAlien");
 
                 Destroy(e);
             }

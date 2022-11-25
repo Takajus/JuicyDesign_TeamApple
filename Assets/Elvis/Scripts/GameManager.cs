@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     private SoundManager _soundManager;
     private bool _isGameIsEnd = false;
 
-    public GameObject gameoverPanel;
-    public TextMeshProUGUI scoreValue;
+    public GameObject gameoverPanel, VrGameoverpanel;
+    public TextMeshProUGUI scoreValue, VrScoreValue;
     
     private int _bfgRage;
     [SerializeField]
@@ -83,8 +83,16 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         // Time.timeScale = 0;
         SoundManager.Instance.PlaySound("Gameover");
-        gameoverPanel.SetActive(true);
-        scoreValue.text = _score.ToString();
+        if (JuicyManager.Instance.VrVsInput)
+        {
+            VrGameoverpanel.SetActive(true);
+            VrScoreValue.text = _score.ToString();
+        }
+        else if (!JuicyManager.Instance.VrVsInput)
+        {
+            gameoverPanel.SetActive(true);
+            scoreValue.text = _score.ToString();
+        }
     }
 
     public void IncreaseScore(int value)

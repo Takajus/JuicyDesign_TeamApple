@@ -71,7 +71,7 @@ public class BulletController : MonoBehaviour
         JuicyManager.Instance.DestructionSystem(enemy.gameObject);
         JuicyManager.Instance.PopUpScoreSystem(enemy.gameObject, $"{rageToAdd}");
                 
-        SoundManager.Instance.PlaySound("AlienDeath");
+        SoundManager.Instance.PlaySound("DestructionAlien");
         
         GameManager.Instance.SetRageBFG(rageToAdd);
         Destroy(enemy);

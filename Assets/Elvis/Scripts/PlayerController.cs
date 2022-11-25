@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
             
             HitEffect();
             
-            SoundManager.Instance.PlaySound("PlayerHit");
+            SoundManager.Instance.PlaySound("BFGHit");
         }
     }
 
