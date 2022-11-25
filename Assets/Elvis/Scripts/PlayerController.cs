@@ -72,12 +72,16 @@ public class PlayerController : MonoBehaviour
         {
             _currentDir = 1;
             
+            JuicyManager.Instance.Propulsion(-1);
+            
             if (!_useBoost)
                 StartCoroutine(LerpBoost());
         }
         else if (horizontal < 0 && _currentDir != -1)
         {
             _currentDir = -1;
+            
+            JuicyManager.Instance.Propulsion(1);
             
             if (!_useBoost)
                 StartCoroutine(LerpBoost());
@@ -93,6 +97,8 @@ public class PlayerController : MonoBehaviour
         if (JuicyManager.Instance.Fire1())
         {
             Shoting(bullet, "Shot");
+            
+            JuicyManager.Instance.StartShooting();
         }
         else if (JuicyManager.Instance.Fire2())
         {
