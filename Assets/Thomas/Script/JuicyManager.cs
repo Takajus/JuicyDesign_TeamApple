@@ -90,11 +90,11 @@ public class JuicyManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
-
+            // Destruction Vaisseau
         }
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-
+            // Chargement du BFG
         }
         tempPrefab = null;
 
