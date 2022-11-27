@@ -277,6 +277,8 @@ public class EnemyManager : MonoBehaviour
         destroyEnemyRow = false;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
+        enemy.GetComponent<SphereCollider>().enabled = false;
+
         yield return new WaitForSeconds(electricTime);
 
         for (int i = 0; i < allEnemies.Count; i++)
