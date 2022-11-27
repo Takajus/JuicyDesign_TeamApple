@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameoverPanel, VrGameoverpanel;
     public TextMeshProUGUI scoreValue, VrScoreValue;
-    
-    private int _bfgRage;
+
     [SerializeField]
+    private int _bfgRage;
     public Slider bfgSlider;
 
     [SerializeField]
@@ -70,7 +70,13 @@ public class GameManager : MonoBehaviour
         else
         {
             _bfgRage += rage;
+            if (_bfgRage >= maxRage) 
+            {
+                PlayerController.Instance.SetCanUseBfg();
+                SoundManager.Instance.PlaySound("BFGAvailable");
+            }
         }
+        
     }
 
     public void ResetBFG()

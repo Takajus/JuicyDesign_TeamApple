@@ -247,23 +247,23 @@ public class EnemyManager : MonoBehaviour
         destroyEnemyRow = true;
     }
 
-    public void DestroyEnemyInSameColumn(GameObject enemy)
-    {
-        for (int i = 0; i < LightningList.Count; i++)
-        {
-            if (Math.Abs(LightningList[i].transform.position.x - enemy.transform.position.x) < 0.2f)
-            {
-                JuicyManager.Instance.DestructionSystem(LightningList[i]);
-                JuicyManager.Instance.PopUpScoreSystem(LightningList[i], "13");
+    //public void DestroyEnemyInSameColumn(GameObject enemy)
+    //{
+    //    for (int i = 0; i < LightningList.Count; i++)
+    //    {
+    //        if (Math.Abs(LightningList[i].transform.position.x - enemy.transform.position.x) < 0.2f)
+    //        {
+    //            JuicyManager.Instance.DestructionSystem(LightningList[i]);
+    //            JuicyManager.Instance.PopUpScoreSystem(LightningList[i], "13");
                 
-                SoundManager.Instance.PlaySound("DestructionAlien");
+    //            SoundManager.Instance.PlaySound("DestructionAlien");
                 
-                // delay for destroy
+    //            // delay for destroy
 
-                Destroy(LightningList[i]);
-            }
-        }
-    }
+    //            Destroy(LightningList[i]);
+    //        }
+    //    }
+    //}
     
     private IEnumerator ShotDelay()
     {
@@ -274,18 +274,21 @@ public class EnemyManager : MonoBehaviour
 
     private IEnumerator ElectricDelay(GameObject enemy)
     {
-        yield return new WaitForSeconds(electricTime);
+        destroyEnemyRow = false;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject e in enemies)
+
+        yield return new WaitForSeconds(electricTime);
+
+        for (int i = 0; i < allEnemies.Count; i++)
         {
-            if (Math.Abs(e.transform.position.z - enemy.transform.position.z) < 0.2f)
+            if (Math.Abs(allEnemies[i].transform.position.z - enemy.transform.position.z) < 0.2f)
             {
-                JuicyManager.Instance.DestructionSystem(e);
-                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                JuicyManager.Instance.DestructionSystem(allEnemies[i]);
+                JuicyManager.Instance.PopUpScoreSystem(allEnemies[i], "13");
 
                 SoundManager.Instance.PlaySound("DestructionAlien");
 
-                Destroy(e);
+                Destroy(allEnemies[i]);
             }
         }
 
@@ -296,6 +299,5 @@ public class EnemyManager : MonoBehaviour
                 Destroy(ArchList[i]);
             }
         }
-        destroyEnemyRow = false;
     }
 }
