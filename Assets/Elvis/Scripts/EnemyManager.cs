@@ -51,6 +51,7 @@ public class EnemyManager : MonoBehaviour
     private Material[] materials;
     public List<GameObject> LightningList;
     public List<GameObject> ArchList;
+    public List<GameObject> allEnemies;
     private GameObject ConcernedEnemy;
 
 
@@ -76,6 +77,7 @@ public class EnemyManager : MonoBehaviour
         SpawnArch();
 
         GameObject[] TempLightning = GameObject.FindGameObjectsWithTag("Lightning");
+        GameObject[] TempEnemeis = GameObject.FindGameObjectsWithTag("Enemy");
 
         for (int i = 0; i < TempLightning.Length; i++)
         {
@@ -86,6 +88,11 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < ArchList.Count; i++)
         {
             ArchList[i].SetActive(false);
+        }
+
+        for (int i = 0; i < TempEnemeis.Length; i++)
+        {
+            allEnemies.Add(TempEnemeis[i]);
         }
     }
 
@@ -116,7 +123,13 @@ public class EnemyManager : MonoBehaviour
             if (!ArchList[i])
                 ArchList.RemoveAt(i);
         }
-        
+
+        for (int i = 0; i < allEnemies.Count; i++)
+        {
+            if (!allEnemies[i])
+                allEnemies.RemoveAt(i);
+        }
+
         MoveHorizontal();
     }
 
@@ -236,19 +249,18 @@ public class EnemyManager : MonoBehaviour
 
     public void DestroyEnemyInSameColumn(GameObject enemy)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject e in enemies)
+        for (int i = 0; i < LightningList.Count; i++)
         {
-            if (Math.Abs(e.transform.position.x - enemy.transform.position.x) < 0.2f)
+            if (Math.Abs(LightningList[i].transform.position.x - enemy.transform.position.x) < 0.2f)
             {
-                JuicyManager.Instance.DestructionSystem(e);
-                JuicyManager.Instance.PopUpScoreSystem(e, "13");
+                JuicyManager.Instance.DestructionSystem(LightningList[i]);
+                JuicyManager.Instance.PopUpScoreSystem(LightningList[i], "13");
                 
                 SoundManager.Instance.PlaySound("DestructionAlien");
                 
                 // delay for destroy
 
-                Destroy(e);
+                Destroy(LightningList[i]);
             }
         }
     }
@@ -275,13 +287,13 @@ public class EnemyManager : MonoBehaviour
 
                 Destroy(e);
             }
+        }
 
-            for (int i = 0; i < ArchList.Count; i++)
+        for (int i = 0; i < ArchList.Count; i++)
+        {
+            if (Math.Abs(ArchList[i].GetComponent<LockPosition>().pos1.position.z - enemy.transform.position.z) < 0.2f)
             {
-                if (Math.Abs(ArchList[i].GetComponent<LockPosition>().pos1.position.z - enemy.transform.position.z) < 0.2f)
-                {
-                    Destroy(ArchList[i]);
-                }
+                Destroy(ArchList[i]);
             }
         }
         destroyEnemyRow = false;
